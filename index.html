@@ -5523,6 +5523,356 @@ window.openModal = function(id) {
         }
 
     }
+    /* =========================================================
+   WARTEX SCRIPT HUB
+========================================================= */
+
+const WARTEX_SCRIPT_API = "https://scriptblox.com/api/script";
+
+function openWartexScriptHub() {
+
+    const modal = document.getElementById("wartexScriptHubModal");
+
+    if (!modal) {
+        console.error("WARTEX Script Hub modalı bulunamadı.");
+        return;
+    }
+
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+
+    wartexLoadTrending();
+}
+
+
+function closeWartexScriptHub() {
+
+    const modal = document.getElementById("wartexScriptHubModal");
+
+    if (!modal) return;
+
+    modal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+}
+
+
+async function wartexSearchScripts() {
+
+    const input = document.getElementById("wartexScriptSearch");
+    const results = document.getElementById("wartexScriptResults");
+
+    if (!input || !results) return;
+
+    const query = input.value.trim();
+
+    if (!query) {
+        wartexLoadTrending();
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="text-center py-16">
+            <i class="fa-solid fa-spinner fa-spin
+                      text-indigo-400 text-3xl mb-4"></i>
+
+            <p class="text-zinc-400 text-xs">
+                Scriptler aranıyor...
+            </p>
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            WARTEX_SCRIPT_API +
+            "/search?q=" +
+            encodeURIComponent(query) +
+            "&max=20"
+        );
+
+        if (!response.ok) {
+            throw new Error("API bağlantısı başarısız.");
+        }
+
+        const data = await response.json();
+
+        const scripts = data?.result?.scripts || [];
+
+        wartexRenderScripts(scripts);
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-triangle-exclamation
+                          text-red-400 text-3xl mb-4"></i>
+
+                <p class="text-red-300 text-sm font-bold">
+                    Scriptler yüklenemedi.
+                </p>
+
+                <p class="text-zinc-500 text-xs mt-2">
+                    Lütfen tekrar deneyin.
+                </p>
+
+            </div>
+        `;
+    }
+}
+
+
+async function wartexLoadTrending() {
+
+    const results =
+        document.getElementById("wartexScriptResults");
+
+    if (!results) return;
+
+    results.innerHTML = `
+        <div class="text-center py-16">
+
+            <i class="fa-solid fa-spinner fa-spin
+                      text-indigo-400 text-3xl mb-4"></i>
+
+            <p class="text-zinc-400 text-xs">
+                Trend scriptler yükleniyor...
+            </p>
+
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            WARTEX_SCRIPT_API +
+            "/trending?max=20"
+        );
+
+        if (!response.ok) {
+            throw new Error("API bağlantısı başarısız.");
+        }
+
+        const data = await response.json();
+
+        const scripts = data?.result?.scripts || [];
+
+        wartexRenderScripts(scripts);
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-triangle-exclamation
+                          text-red-400 text-3xl mb-4"></i>
+
+                <p class="text-red-300 text-sm font-bold">
+                    Trend scriptler yüklenemedi.
+                </p>
+
+            </div>
+        `;
+    }
+}
+
+
+function wartexQuickSearch(query) {
+
+    const input =
+        document.getElementById("wartexScriptSearch");
+
+    if (!input) return;
+
+    input.value = query;
+
+    wartexSearchScripts();
+}
+
+
+function wartexRenderScripts(scripts) {
+
+    const results =
+        document.getElementById("wartexScriptResults");
+
+    if (!results) return;
+
+    if (!scripts || !scripts.length) {
+
+        results.innerHTML = `
+            <div class="text-center py-16">
+
+                <i class="fa-solid fa-folder-open
+                          text-zinc-600 text-4xl mb-4"></i>
+
+                <p class="text-zinc-400 text-sm font-bold">
+                    Script bulunamadı.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="grid grid-cols-1
+                    md:grid-cols-2
+                    xl:grid-cols-3 gap-4">
+
+            ${scripts.map(script =>
+                wartexCreateScriptCard(script)
+            ).join("")}
+
+        </div>
+    `;
+}
+
+
+function wartexCreateScriptCard(script) {
+
+    const title =
+        wartexEscape(script.title || "İsimsiz Script");
+
+    const gameName =
+        wartexEscape(
+            script.game?.name || "Universal"
+        );
+
+    const image =
+        script.image ||
+        script.game?.imageUrl ||
+        "";
+
+    const views =
+        Number(script.views || 0).toLocaleString();
+
+    const code =
+        script.script || "";
+
+    return `
+        <div class="wartex-script-card">
+
+            ${
+                image
+                ? `
+                    <img
+                        src="${wartexEscape(image)}"
+                        class="wartex-script-image"
+                        loading="lazy"
+                        onerror="this.style.display='none'"
+                    >
+                `
+                : ""
+            }
+
+            <div class="mt-4">
+
+                <h4 class="text-white font-black text-sm">
+                    ${title}
+                </h4>
+
+                <p class="text-zinc-500 text-[10px] mt-1">
+                    <i class="fa-solid fa-gamepad mr-1"></i>
+                    ${gameName}
+                </p>
+
+                <div class="flex items-center
+                            justify-between mt-3">
+
+                    <span class="text-[9px] text-zinc-600">
+                        <i class="fa-solid fa-eye mr-1"></i>
+                        ${views}
+                    </span>
+
+                    ${
+                        script.verified
+                        ? `
+                            <span class="wartex-badge">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Doğrulanmış
+                            </span>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+                <details class="mt-4">
+
+                    <summary
+                        class="cursor-pointer
+                               text-indigo-400
+                               text-[10px]
+                               font-bold">
+
+                        <i class="fa-solid fa-code mr-1"></i>
+                        Script Kodunu Göster
+
+                    </summary>
+
+                    <pre class="wartex-code-box mt-3">${wartexEscape(code)}</pre>
+
+                </details>
+
+                <button
+                    onclick='wartexCopyScript(${JSON.stringify(code)})'
+                    class="w-full mt-4
+                           bg-indigo-600
+                           hover:bg-indigo-500
+                           text-white
+                           font-bold py-2
+                           rounded-lg
+                           text-[10px]">
+
+                    <i class="fa-solid fa-copy mr-1"></i>
+                    Scripti Kopyala
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+async function wartexCopyScript(code) {
+
+    if (!code) {
+        alert("Bu script için kod bulunamadı.");
+        return;
+    }
+
+    try {
+
+        await navigator.clipboard.writeText(code);
+
+        alert("Script panoya kopyalandı.");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Kopyalama başarısız oldu.");
+
+    }
+}
+
+
+function wartexEscape(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 
     function closeModal(modalId) {
