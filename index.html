@@ -1477,7 +1477,7 @@ function showWartexScript(index) {
     if (!script) return;
 
     selectedWartexScript = script;
-
+window.selectedWartexScript = script;
 console.log("SELECTED SCRIPT ATANDI:", selectedWartexScript);
 console.log("SCRIPT CODE:", selectedWartexScript.code);
     document.getElementById("detailScriptName").textContent =
