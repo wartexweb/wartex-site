@@ -6030,7 +6030,7 @@ if (!image) {
         Number(script.views || 0).toLocaleString();
 
     const code =
-        script.script || "";
+    script.code || script.script || "";
 
     const verified =
         script.verified === true;
