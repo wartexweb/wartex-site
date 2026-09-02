@@ -6823,6 +6823,8 @@ function wartexOpenScriptDetails(script) {
 }
 async function wartexCopyScript(code) {
 
+    console.log("KOPYALANACAK KOD:", code);
+
     if (!code) {
         alert("Bu script için kod bulunamadı.");
         return;
@@ -6842,7 +6844,6 @@ async function wartexCopyScript(code) {
 
     }
 }
-
 
 function wartexEscape(value) {
 
