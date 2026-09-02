@@ -1281,6 +1281,154 @@ print("Arsenal Helper")`
 let selectedWartexScript = null;
 
 
+
+/* =========================================================
+   SCRIPTBLOX API
+========================================================= */
+
+async function loadWartexScriptsFromAPI() {
+
+    try {
+
+        console.log("ScriptBlox scriptleri yükleniyor...");
+
+        const response = await fetch(
+            "https://scriptblox.com/api/script/fetch?max=20"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "ScriptBlox API cevap vermedi: " +
+                response.status
+            );
+        }
+
+        const data = await response.json();
+
+        console.log("SCRIPTBLOX API:", data);
+
+        const scripts =
+            data?.result?.scripts;
+
+        if (!Array.isArray(scripts)) {
+            throw new Error(
+                "ScriptBlox script listesi bulunamadı."
+            );
+        }
+
+        const apiScripts = scripts.map(script => {
+
+            return {
+
+                game:
+                    script.game?.name ||
+                    "Universal",
+
+                name:
+                    script.title ||
+                    "İsimsiz Script",
+
+                brand:
+                    "ScriptBlox",
+
+                key:
+                    script.key
+                        ? "Key Var"
+                        : "Keyless",
+
+                security:
+                    script.verified === true
+                        ? "Doğrulanmış"
+                        : "Kontrol Edilmedi",
+
+                status:
+                    script.isPatched === true
+                        ? "Pasif"
+                        : "Aktif",
+
+                update:
+                    script.updatedAt ||
+                    "Güncel",
+
+                description:
+                    script.title ||
+                    "ScriptBlox scripti.",
+
+                /*
+                 * ÖNEMLİ:
+                 * Gerçek script kodu burada tutuluyor.
+                 */
+                code:
+                    script.script ||
+                    "",
+
+                views:
+                    Number(script.views || 0),
+
+                verified:
+                    script.verified === true,
+
+                originalScript:
+                    script
+            };
+
+        });
+
+
+        /*
+         * Eski WARTEX scriptlerini silmiyoruz.
+         * ScriptBlox'dan gelenleri mevcut listeye ekliyoruz.
+         */
+
+        apiScripts.forEach(script => {
+
+            const alreadyExists =
+                wartexScripts.some(existing =>
+                    existing.name === script.name &&
+                    existing.game === script.game
+                );
+
+            if (!alreadyExists) {
+                wartexScripts.push(script);
+            }
+
+        });
+
+
+        console.log(
+            "WARTEX toplam script:",
+            wartexScripts.length
+        );
+
+
+        /*
+         * Listeyi yeniden çiz
+         */
+
+        if (typeof renderWartexScripts === "function") {
+            renderWartexScripts(wartexScripts);
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "ScriptBlox API Hatası:",
+            error
+        );
+
+        console.log(
+            "Mevcut WARTEX scriptleri kullanılmaya devam ediyor."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SCRIPT LİSTELE
+========================================================= */
 /* =========================================================
    SCRIPT LİSTELE
 ========================================================= */
