@@ -6365,7 +6365,11 @@ if (!image) {
 }
 
 function wartexOpenScriptDetails(script) {
+    selectedWartexScript = script;
+    window.selectedWartexScript = script;
 
+    console.log("DETAY SCRIPT:", selectedWartexScript);
+    console.log("DETAY SCRIPT CODE:", selectedWartexScript?.code);
     const title =
         wartexEscape(script.title || "İsimsiz Script");
 
@@ -6850,9 +6854,9 @@ function wartexOpenScriptDetails(script) {
                     </p>
 
                     <button
-                    onclick="
-    console.log('BUTONA GELEN SCRIPT:', selectedWartexScript);
-    wartexOpenUnlockModal(selectedWartexScript);
+    onclick="
+    console.log('BUTONA GELEN SCRIPT:', window.selectedWartexScript);
+    wartexOpenUnlockModal(window.selectedWartexScript);
 "
                         class="w-full
                                bg-indigo-600
