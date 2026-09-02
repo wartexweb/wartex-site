@@ -1526,7 +1526,7 @@ function renderWartexScripts(list = wartexScripts) {
 
             <td class="px-4 py-3 text-right">
 
-                <button onclick="showWartexScript(${index})"
+               <button onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/'/g, "&#039;")})'
                         class="bg-zinc-800
                                hover:bg-purple-600
                                text-white
