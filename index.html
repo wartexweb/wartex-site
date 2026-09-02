@@ -6514,18 +6514,20 @@ if (!image) {
 }
 
 function wartexOpenScriptDetails(script) {
-    selectedWartexScript = script;
-    
-    window.selectedWartexScript = script;
-        if (!script.code && script.originalScript?.script) {
-        script.code = script.originalScript.script;
+
+    if (!script.code) {
+        script.code =
+            script.script ||
+            script.originalScript?.script ||
+            "";
     }
+
+    selectedWartexScript = script;
+    window.selectedWartexScript = script;
 
     console.log("DETAY SCRIPT:", script);
     console.log("DETAY SCRIPT CODE:", script.code);
 
-    console.log("DETAY SCRIPT:", selectedWartexScript);
-    console.log("DETAY SCRIPT CODE:", selectedWartexScript?.code);
     const title =
         wartexEscape(script.title || "İsimsiz Script");
 
@@ -6533,6 +6535,7 @@ function wartexOpenScriptDetails(script) {
         wartexEscape(
             script.game?.name || "Universal"
         );
+    
 
     const views =
         Number(script.views || 0).toLocaleString();
