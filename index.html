@@ -1359,8 +1359,9 @@ async function loadWartexScriptsFromAPI() {
                  * Gerçek script kodu burada tutuluyor.
                  */
                 code:
-                    script.script ||
-                    "",
+    script.script ||
+    script.code ||
+    "",
 
                 views:
                     Number(script.views || 0),
