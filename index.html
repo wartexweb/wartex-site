@@ -7468,7 +7468,47 @@ window.wartexUnlockScript = script;
             );
 
         });
+// SCRIPT KOPYALAMA FONKSİYONU
+function wartexCopyScript(script) {
 
+    if (!script) {
+        alert("Script kodu bulunamadı.");
+        return;
+    }
+
+    navigator.clipboard.writeText(script)
+        .then(function() {
+
+            const notification = document.createElement("div");
+
+            notification.className =
+                "fixed bottom-6 left-1/2 -translate-x-1/2 " +
+                "z-[100] bg-emerald-500/10 " +
+                "border border-emerald-500/30 " +
+                "text-emerald-400 " +
+                "px-5 py-3 rounded-xl shadow-2xl " +
+                "backdrop-blur-sm text-xs font-bold " +
+                "flex items-center gap-2";
+
+            notification.innerHTML =
+                '<i class="fa-solid fa-check"></i>' +
+                ' Script kodu kopyalandı!';
+
+            document.body.appendChild(notification);
+
+            setTimeout(function() {
+                notification.remove();
+            }, 2000);
+
+        })
+        .catch(function(error) {
+
+            console.error("Kopyalama hatası:", error);
+
+            alert("Script kopyalanamadı.");
+
+        });
+}
 </script>
 
 </body>
