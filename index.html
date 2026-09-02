@@ -1521,32 +1521,7 @@ console.log("SCRIPT CODE:", selectedWartexScript.code);
 }
 
 
-/* =========================================================
-   KOD KOPYALA
-========================================================= */
 
-function copyWartexScript() {
-
-    if (!selectedWartexScript || !selectedWartexScript.code) {
-        alert("Script kodu bulunamadı.");
-        return;
-    }
-
-    navigator.clipboard.writeText(
-        selectedWartexScript.code
-    ).then(function() {
-
-        alert("Script kodu kopyalandı!");
-
-    }).catch(function(error) {
-
-        console.error(error);
-
-        alert("Kod kopyalanamadı.");
-
-    });
-
-}
 
 /* =========================================================
    DETAY KAPAT
@@ -1661,19 +1636,7 @@ function showWartexAccess() {
 
             <!-- KODU KOPYALA -->
 
-            <button onclick="copyWartexScript()"
-                    class="mt-3 w-full
-                           bg-purple-600
-                           hover:bg-purple-500
-                           text-white font-black
-                           py-3 rounded-xl text-xs
-                           transition">
-
-                <i class="fa-solid fa-copy mr-1"></i>
-
-                Kodu Kopyala
-
-            </button>
+            
 
 
         </div>
@@ -6938,29 +6901,7 @@ function wartexOpenScriptDetails(script) {
 
     document.body.appendChild(modal);
 }
-async function wartexCopyScript(code) {
 
-    console.log("KOPYALANACAK KOD:", code);
-console.log("KOPYALAMA FONKSİYONU ÇALIŞTI");
-    if (!code) {
-        alert("Bu script için kod bulunamadı.");
-        return;
-    }
-
-    try {
-
-        await navigator.clipboard.writeText(code);
-
-        alert("Script panoya kopyalandı.");
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Kopyalama başarısız oldu.");
-
-    }
-}
 
 function wartexEscape(value) {
 
@@ -7092,8 +7033,16 @@ function wartexCompleteStep(type) {
     }
 }
 function wartexOpenUnlockModal(script) {
-window.wartexUnlockScript = script;
+
     console.log("SEÇİLEN SCRIPT:", script);
+    console.log("SCRIPT CODE:", script?.code);
+
+    if (!script || !script.code) {
+        alert("Bu script için kod bulunamadı.");
+        return;
+    }
+
+    window.wartexUnlockScript = script;
     const oldModal = document.getElementById("wartexUnlockModal");
 
     if (oldModal) {
