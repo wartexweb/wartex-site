@@ -1526,36 +1526,26 @@ function showWartexScript(index) {
 
 function copyWartexScript() {
 
-    if (!selectedWartexScript) return;
+    if (!selectedWartexScript || !selectedWartexScript.code) {
+        alert("Script kodu bulunamadı.");
+        return;
+    }
 
     navigator.clipboard.writeText(
         selectedWartexScript.code
-    ).then(() => {
+    ).then(function() {
 
-        const button =
-            event?.currentTarget;
+        alert("Script kodu kopyalandı!");
 
-        if (button) {
+    }).catch(function(error) {
 
-            const oldText = button.innerHTML;
-
-            button.innerHTML =
-                '<i class="fa-solid fa-check mr-1"></i> Kopyalandı';
-
-            setTimeout(() => {
-                button.innerHTML = oldText;
-            }, 1500);
-
-        }
-
-    }).catch(() => {
+        console.error(error);
 
         alert("Kod kopyalanamadı.");
 
     });
 
 }
-
 
 /* =========================================================
    DETAY KAPAT
