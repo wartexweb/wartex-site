@@ -5966,6 +5966,7 @@ function wartexCreateScriptCard(script) {
     const image =
         script.image ||
         script.game?.imageUrl ||
+        script.game?.image ||
         "";
 
     const views =
