@@ -6863,155 +6863,7 @@ function wartexEscape(value) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-function wartexOpenUnlockModal() {
 
-    const oldModal =
-        document.getElementById("wartexUnlockModal");
-
-    if (oldModal) {
-        oldModal.remove();
-    }
-
-    const modal =
-        document.createElement("div");
-
-    modal.id = "wartexUnlockModal";
-
-    modal.className =
-        "fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4";
-
-    modal.innerHTML = `
-
-        <div class="bg-zinc-950
-                    border border-zinc-800
-                    rounded-2xl
-                    max-w-md
-                    w-full
-                    shadow-2xl
-                    overflow-hidden">
-
-            <div class="p-6 text-center">
-
-                <div class="w-14 h-14
-                            mx-auto
-                            rounded-2xl
-                            bg-indigo-500/10
-                            border border-indigo-500/20
-                            flex items-center
-                            justify-center
-                            mb-4">
-
-                    <i class="fa-solid fa-unlock
-                              text-indigo-400
-                              text-xl">
-                    </i>
-
-                </div>
-
-                         <p class="text-zinc-400
-          text-xs
-          leading-relaxed
-          mb-6">
-
-    Script koduna erişmek için
-    topluluklarımıza katılabilirsin.
-
-</p>
-
-                    
-
-
-                <!-- DISCORD -->
-
-                <a
-                    href="https://discord.gg/j7EQ655jr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-full
-                           flex items-center
-                           justify-center
-                           gap-3
-                           bg-indigo-600
-                           hover:bg-indigo-500
-                           text-white
-                           font-bold
-                           py-3
-                           rounded-xl
-                           text-xs
-                           transition
-                           mb-3">
-
-                    <i class="fa-brands fa-discord text-lg"></i>
-
-                    Discord Sunucusuna Katıl
-
-                </a>
-
-
-                <!-- YOUTUBE -->
-
-                <a
-                    href="https://www.youtube.com/@byVORTEX_HUB"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-full
-                           flex items-center
-                           justify-center
-                           gap-3
-                           bg-red-600
-                           hover:bg-red-500
-                           text-white
-                           font-bold
-                           py-3
-                           rounded-xl
-                           text-xs
-                           transition">
-
-                    <i class="fa-brands fa-youtube text-lg"></i>
-
-                    YouTube Kanalını Aç
-
-                </a>
-
-
-                <p class="text-zinc-600
-                          text-[9px]
-                          mt-5">
-
-                    Katılım sağladıktan sonra
-                    pencereyi kapatabilirsin.
-
-                </p>
-
-            </div>
-
-
-            <div class="p-4
-                        border-t border-zinc-800
-                        flex justify-end">
-
-                <button
-                    onclick="document.getElementById('wartexUnlockModal').remove()"
-                    class="bg-zinc-800
-                           hover:bg-zinc-700
-                           text-zinc-300
-                           px-5 py-2.5
-                           rounded-xl
-                           text-xs
-                           font-bold
-                           transition">
-
-                    Kapat
-
-                </button>
-
-            </div>
-
-        </div>
-    `;
-
-    document.body.appendChild(modal);
-}
     function closeModal(modalId) {
 
         const modal = document.getElementById(modalId);
@@ -7052,8 +6904,402 @@ function wartexOpenUnlockModal() {
         openModal('paymentTermsModal');
 
     }
+let wartexUnlockSteps = {
+    discord: false,
+    youtube: false
+};
+
+function wartexCompleteStep(type) {
+
+    if (type !== "discord" && type !== "youtube") {
+        return;
+    }
+
+    wartexUnlockSteps[type] = true;
+
+    const completed =
+        Number(wartexUnlockSteps.discord) +
+        Number(wartexUnlockSteps.youtube);
+
+    const progress =
+        document.getElementById("wartexProgress");
+
+    if (progress) {
+        progress.textContent = completed + "/2";
+    }
+
+    const stepId =
+        type === "discord"
+            ? "wartexDiscordStep"
+            : "wartexYoutubeStep";
+
+    const step = document.getElementById(stepId);
+
+    if (step) {
+        step.classList.remove(
+            "border-zinc-800",
+            "bg-zinc-900"
+        );
+
+        step.classList.add(
+            "border-emerald-500/30",
+            "bg-emerald-500/5"
+        );
+
+        const button = step.querySelector("button");
+
+        if (button) {
+            button.innerHTML =
+                '<i class="fa-solid fa-check mr-1"></i> Tamamlandı';
+
+            button.disabled = true;
+            button.classList.remove(
+                "bg-zinc-800",
+                "text-zinc-400"
+            );
+
+            button.classList.add(
+                "bg-emerald-500/10",
+                "text-emerald-400"
+            );
+        }
+    }
+
+    if (completed === 2) {
+
+        const unlock =
+            document.getElementById("wartexScriptUnlocked");
+
+        if (unlock) {
+            unlock.classList.remove("hidden");
+        }
+
+        const status =
+            document.getElementById("wartexUnlockStatus");
+
+        if (status) {
+            status.textContent =
+                "Tüm adımlar tamamlandı! Script kodunun kilidi açıldı.";
+        }
+    }
+}
+function wartexOpenUnlockModal() {
+
+    const oldModal = document.getElementById("wartexUnlockModal");
+
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+    wartexUnlockSteps.discord = false;
+    wartexUnlockSteps.youtube = false;
+
+    const modal = document.createElement("div");
+
+    modal.id = "wartexUnlockModal";
+
+    modal.className =
+        "fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 overflow-y-auto";
+
+    modal.innerHTML = `
+
+        <div class="bg-zinc-950
+                    border border-zinc-800
+                    rounded-2xl
+                    max-w-md
+                    w-full
+                    shadow-2xl
+                    my-8">
+
+            <div class="p-6">
+
+                <div class="text-center mb-6">
+
+                    <div class="w-14 h-14
+                                mx-auto
+                                rounded-2xl
+                                bg-indigo-500/10
+                                border border-indigo-500/20
+                                flex items-center
+                                justify-center
+                                mb-4">
+
+                        <i class="fa-solid fa-lock
+                                  text-indigo-400
+                                  text-xl"></i>
+
+                    </div>
+
+                    <h3 class="text-white
+                               font-black
+                               text-lg
+                               mb-2">
+
+                        Scripti Al
+
+                    </h3>
+
+                    <p class="text-zinc-500
+                              text-xs
+                              leading-relaxed">
+
+                        Script kodunu almak için
+                        aşağıdaki iki adımı tamamla.
+
+                    </p>
+
+                </div>
+
+                <div class="flex items-center
+                            justify-center
+                            gap-2
+                            mb-5">
+
+                    <span class="text-zinc-500 text-xs">
+                        İlerleme:
+                    </span>
+
+                    <span id="wartexProgress"
+                          class="text-indigo-400
+                                 font-black
+                                 text-sm">
+
+                        0/2
+
+                    </span>
+
+                </div>
 
 
+                <!-- DISCORD -->
+
+                <div id="wartexDiscordStep"
+                     class="border border-zinc-800
+                            bg-zinc-900
+                            rounded-xl
+                            p-4
+                            mb-3">
+
+                    <div class="flex items-center
+                                justify-between
+                                gap-3">
+
+                        <div class="flex items-center
+                                    gap-3">
+
+                            <div class="w-10 h-10
+                                        rounded-lg
+                                        bg-indigo-500/10
+                                        flex items-center
+                                        justify-center">
+
+                                <i class="fa-brands fa-discord
+                                          text-indigo-400
+                                          text-lg"></i>
+
+                            </div>
+
+                            <div>
+
+                                <p class="text-white
+                                          font-bold
+                                          text-xs">
+
+                                    Discord
+
+                                </p>
+
+                                <p class="text-zinc-500
+                                          text-[9px]">
+
+                                    Sunucuya katıl
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            onclick="
+                                window.open(
+                                    'https://discord.gg/j7EQ655jr',
+                                    '_blank'
+                                );
+                                wartexCompleteStep('discord');
+                            "
+                            class="bg-indigo-600
+                                   hover:bg-indigo-500
+                                   text-white
+                                   font-bold
+                                   px-4
+                                   py-2
+                                   rounded-lg
+                                   text-[10px]
+                                   transition">
+
+                            Katıl
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- YOUTUBE -->
+
+                <div id="wartexYoutubeStep"
+                     class="border border-zinc-800
+                            bg-zinc-900
+                            rounded-xl
+                            p-4
+                            mb-4">
+
+                    <div class="flex items-center
+                                justify-between
+                                gap-3">
+
+                        <div class="flex items-center
+                                    gap-3">
+
+                            <div class="w-10 h-10
+                                        rounded-lg
+                                        bg-red-500/10
+                                        flex items-center
+                                        justify-center">
+
+                                <i class="fa-brands fa-youtube
+                                          text-red-400
+                                          text-lg"></i>
+
+                            </div>
+
+                            <div>
+
+                                <p class="text-white
+                                          font-bold
+                                          text-xs">
+
+                                    YouTube
+
+                                </p>
+
+                                <p class="text-zinc-500
+                                          text-[9px]">
+
+                                    Kanala abone ol
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            onclick="
+                                window.open(
+                                    'https://www.youtube.com/@byVORTEX_HUB',
+                                    '_blank'
+                                );
+                                wartexCompleteStep('youtube');
+                            "
+                            class="bg-red-600
+                                   hover:bg-red-500
+                                   text-white
+                                   font-bold
+                                   px-4
+                                   py-2
+                                   rounded-lg
+                                   text-[10px]
+                                   transition">
+
+                            Abone Ol
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div id="wartexUnlockStatus"
+                     class="text-center
+                            text-zinc-600
+                            text-[9px]
+                            mb-4">
+
+                    <div id="wartexUnlockStatus"
+     class="text-center
+            text-zinc-600
+            text-[9px]
+            mb-4">
+
+    İki adımı da tamamla.
+
+</div>
+
+
+<!-- KOD BUTONU -->
+
+<div id="wartexScriptUnlocked"
+     class="hidden">
+
+    <button
+        onclick="
+            copyWartexScript();
+            document
+                .getElementById('wartexUnlockModal')
+                .remove();
+        "
+        class="w-full
+               bg-emerald-600
+               hover:bg-emerald-500
+               text-white
+               font-black
+               py-3
+               rounded-xl
+               text-xs
+               transition">
+
+        <i class="fa-solid fa-unlock mr-1"></i>
+
+        Script Kodunu Al
+
+    </button>
+
+</div>
+
+
+<!-- KAPAT -->
+
+<button
+    onclick="
+        document
+            .getElementById('wartexUnlockModal')
+            .remove();
+    "
+    class="w-full
+           bg-zinc-800
+           hover:bg-zinc-700
+           text-zinc-300
+           font-bold
+           py-3
+           rounded-xl
+           text-xs
+           transition
+           mt-3">
+
+    Kapat
+
+</button>
+
+</div>
+
+</div>
+`;
+    document.body.appendChild(modal);
+}
     function acceptPaymentTerms() {
 
         closeModal('paymentTermsModal');
