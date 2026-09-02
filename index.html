@@ -6515,7 +6515,14 @@ if (!image) {
 
 function wartexOpenScriptDetails(script) {
     selectedWartexScript = script;
+    
     window.selectedWartexScript = script;
+        if (!script.code && script.originalScript?.script) {
+        script.code = script.originalScript.script;
+    }
+
+    console.log("DETAY SCRIPT:", script);
+    console.log("DETAY SCRIPT CODE:", script.code);
 
     console.log("DETAY SCRIPT:", selectedWartexScript);
     console.log("DETAY SCRIPT CODE:", selectedWartexScript?.code);
