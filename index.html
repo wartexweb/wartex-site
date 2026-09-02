@@ -7194,16 +7194,22 @@ function wartexCompleteStep(type) {
 }
 function wartexOpenUnlockModal(script) {
 
-    console.log("SEÇİLEN SCRIPT:", script);
-    console.log("SCRIPT CODE:", script?.code);
-
     if (!script) {
         alert("Script seçilemedi.");
         return;
     }
 
+    if (!script.code && script.originalScript?.script) {
+        script.code = script.originalScript.script;
+    }
+
     window.wartexUnlockScript = script;
-    const oldModal = document.getElementById("wartexUnlockModal");
+
+    console.log("SEÇİLEN SCRIPT:", script);
+    console.log("SCRIPT CODE:", script.code);
+
+    const oldModal =
+   document.getElementById("wartexUnlockModal");
 
     if (oldModal) {
         oldModal.remove();
