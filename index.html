@@ -5953,6 +5953,7 @@ function wartexRenderScripts(scripts) {
 }
 
 
+
 function wartexCreateScriptCard(script) {
 
     const title =
@@ -5975,92 +5976,236 @@ function wartexCreateScriptCard(script) {
     const code =
         script.script || "";
 
+    const verified =
+        script.verified === true;
+
     return `
-        <div class="wartex-script-card">
+        <div class="wartex-script-card
+                    group
+                    bg-zinc-950
+                    border border-zinc-800
+                    hover:border-indigo-500/50
+                    rounded-2xl
+                    overflow-hidden
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:shadow-xl
+                    hover:shadow-indigo-500/10">
 
             ${
                 image
                 ? `
-                    <img
-                        src="${wartexEscape(image)}"
-                        class="wartex-script-image"
-                        loading="lazy"
-                        onerror="this.style.display='none'"
-                    >
+                    <div class="relative h-40 overflow-hidden bg-zinc-900">
+
+                        <img
+                            src="${wartexEscape(image)}"
+                            class="w-full h-full object-cover
+                                   group-hover:scale-105
+                                   transition-transform duration-500"
+                            loading="lazy"
+                            onerror="this.parentElement.style.display='none'"
+                        >
+
+                        <div class="absolute inset-0
+                                    bg-gradient-to-t
+                                    from-zinc-950
+                                    via-transparent
+                                    to-transparent">
+                        </div>
+
+                    </div>
                 `
-                : ""
+                : `
+                    <div class="h-24 bg-gradient-to-br
+                                from-indigo-950/40
+                                to-zinc-950
+                                flex items-center
+                                justify-center">
+
+                        <i class="fa-solid fa-code
+                                  text-indigo-500/40
+                                  text-3xl">
+                        </i>
+
+                    </div>
+                `
             }
 
-            <div class="mt-4">
+            <div class="p-5">
 
-                <h4 class="text-white font-black text-sm">
-                    ${title}
-                </h4>
+                <!-- OYUN -->
 
-                <p class="text-zinc-500 text-[10px] mt-1">
-                    <i class="fa-solid fa-gamepad mr-1"></i>
-                    ${gameName}
-                </p>
+                <div class="flex items-center gap-2 mb-2">
 
-                <div class="flex items-center
-                            justify-between mt-3">
+                    <span class="text-[10px]
+                                 text-indigo-400
+                                 font-bold
+                                 uppercase
+                                 tracking-wide">
 
-                    <span class="text-[9px] text-zinc-600">
-                        <i class="fa-solid fa-eye mr-1"></i>
-                        ${views}
+                        <i class="fa-solid fa-gamepad mr-1"></i>
+                        ${gameName}
+
                     </span>
 
+                </div>
+
+
+                <!-- BAŞLIK -->
+
+                <h4 class="text-white
+                           font-black
+                           text-sm
+                           leading-relaxed
+                           line-clamp-2">
+
+                    ${title}
+
+                </h4>
+
+
+                <!-- BİLGİLER -->
+
+                <div class="flex items-center
+                            justify-between
+                            mt-4
+                            py-3
+                            border-y
+                            border-zinc-800">
+
+                    <div class="flex items-center gap-2">
+
+                        <i class="fa-solid fa-eye
+                                  text-zinc-600
+                                  text-xs">
+                        </i>
+
+                        <div>
+
+                            <span class="block
+                                         text-white
+                                         font-black
+                                         text-xs">
+
+                                ${views}
+
+                            </span>
+
+                            <span class="text-[8px]
+                                         text-zinc-600
+                                         uppercase">
+
+                                Görüntülenme
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
                     ${
-                        script.verified
+                        verified
                         ? `
-                            <span class="wartex-badge">
-                                <i class="fa-solid fa-circle-check"></i>
-                                Doğrulanmış
+                            <div class="flex items-center gap-2
+                                        bg-emerald-500/10
+                                        border border-emerald-500/20
+                                        px-2.5 py-1.5
+                                        rounded-lg">
+
+                                <span class="relative flex h-2 w-2">
+
+                                    <span class="animate-ping
+                                                 absolute
+                                                 inline-flex
+                                                 h-full
+                                                 w-full
+                                                 rounded-full
+                                                 bg-emerald-400
+                                                 opacity-75">
+                                    </span>
+
+                                    <span class="relative
+                                                 inline-flex
+                                                 rounded-full
+                                                 h-2 w-2
+                                                 bg-emerald-500">
+                                    </span>
+
+                                </span>
+
+                                <span class="text-[9px]
+                                             font-black
+                                             text-emerald-400
+                                             uppercase">
+
+                                    Doğrulanmış
+
+                                </span>
+
+                            </div>
+                        `
+                        : `
+                            <span class="text-[9px]
+                                         text-zinc-600
+                                         font-bold">
+
+                                Doğrulanmamış
+
                             </span>
                         `
-                        : ""
                     }
 
                 </div>
 
-                <details class="mt-4">
 
-                    <summary
-                        class="cursor-pointer
-                               text-indigo-400
+                <!-- BUTONLAR -->
+
+                <div class="grid grid-cols-2 gap-2 mt-4">
+
+                    <button
+                        onclick='wartexOpenScriptDetails(${JSON.stringify(script).replace(/'/g, "&#039;")})'
+                        class="bg-indigo-600
+                               hover:bg-indigo-500
+                               text-white
+                               font-bold
+                               py-2.5
+                               rounded-xl
                                text-[10px]
-                               font-bold">
+                               transition">
 
-                        <i class="fa-solid fa-code mr-1"></i>
-                        Script Kodunu Göster
+                        <i class="fa-solid fa-magnifying-glass mr-1"></i>
+                        İncele
 
-                    </summary>
+                    </button>
 
-                    <pre class="wartex-code-box mt-3">${wartexEscape(code)}</pre>
 
-                </details>
+                    <button
+                        onclick='wartexCopyScript(${JSON.stringify(code)})'
+                        class="bg-zinc-900
+                               hover:bg-zinc-800
+                               border border-zinc-800
+                               text-zinc-300
+                               hover:text-white
+                               font-bold
+                               py-2.5
+                               rounded-xl
+                               text-[10px]
+                               transition">
 
-                <button
-                    onclick='wartexCopyScript(${JSON.stringify(code)})'
-                    class="w-full mt-4
-                           bg-indigo-600
-                           hover:bg-indigo-500
-                           text-white
-                           font-bold py-2
-                           rounded-lg
-                           text-[10px]">
+                        <i class="fa-solid fa-copy mr-1"></i>
+                        Kopyala
 
-                    <i class="fa-solid fa-copy mr-1"></i>
-                    Scripti Kopyala
+                    </button>
 
-                </button>
+                </div>
 
             </div>
 
         </div>
     `;
 }
-
 
 async function wartexCopyScript(code) {
 
