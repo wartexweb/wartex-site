@@ -7347,7 +7347,11 @@ window.wartexUnlockScript = script;
 
     <button
         onclick="
-         wartexCopyScript(window.wartexUnlockScript.code);
+        if (window.wartexUnlockScript && window.wartexUnlockScript.code) {
+            wartexCopyScript(window.wartexUnlockScript.code);
+        } else {
+            alert('Script kodu bulunamadı.');
+        }
             
         "
         class="w-full
