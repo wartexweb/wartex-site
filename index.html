@@ -7305,12 +7305,14 @@ function wartexOpenUnlockModal(script) {
 
     <button
         onclick="
-        if (window.wartexUnlockScript && window.wartexUnlockScript.code) {
-            wartexCopyScript(window.wartexUnlockScript.code);
-        } else {
-            alert('Script kodu bulunamadı.');
-        }
-            
+            console.log('UNLOCK SCRIPT:', window.wartexUnlockScript);
+            console.log('UNLOCK CODE:', window.wartexUnlockScript?.code);
+
+            if (window.wartexUnlockScript?.code) {
+                wartexCopyScript(window.wartexUnlockScript.code);
+            } else {
+                alert('Script kodu bulunamadı.');
+            }
         "
         class="w-full
                bg-emerald-600
