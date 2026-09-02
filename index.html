@@ -1182,7 +1182,7 @@
                             Script Kodu
                         </h5>
 
-                        <button onclick="copyWartexScript()"
+                     <button onclick="showWartexAccess()"
                                 class="bg-purple-600
                                        hover:bg-purple-500
                                        text-white
@@ -1191,7 +1191,7 @@
                                        transition">
 
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Kodu Kopyala
+                           Erişim Adımlarını Gör
 
                         </button>
 
@@ -1575,6 +1575,119 @@ function escapeWartexHTML(text) {
         .replace(/'/g, "&#039;");
 
 }
+/* =========================================================
+   WARTEX ERİŞİM BÖLÜMÜ
+========================================================= */
+
+function showWartexAccess() {
+
+    const details = document.getElementById("scriptHubDetails");
+
+    if (!details) return;
+
+    // Daha önce oluşturulduysa tekrar oluşturma
+    const existing = document.getElementById("wartexAccessBox");
+
+    if (existing) {
+        existing.remove();
+    }
+
+    const accessBox = document.createElement("div");
+
+    accessBox.id = "wartexAccessBox";
+
+    accessBox.className =
+        "mt-5 p-4 rounded-2xl border border-purple-500/20 bg-zinc-950/60";
+
+    accessBox.innerHTML = `
+
+        <div class="text-center">
+
+            <h5 class="text-sm font-black text-white mb-1">
+                Kodu Kopyalamadan Önce
+            </h5>
+
+            <p class="text-[11px] text-zinc-500 mb-4">
+                WARTEX topluluğuna katılmak için aşağıdaki bağlantıları kullan.
+            </p>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+
+                <!-- DISCORD -->
+
+                <a href="https://discord.gg/j7EQ655jr"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="w-full bg-indigo-600
+                          hover:bg-indigo-500
+                          text-white font-black
+                          py-3 rounded-xl text-xs
+                          flex items-center
+                          justify-center gap-2
+                          transition">
+
+                    <i class="fa-brands fa-discord"></i>
+
+                    Discord'a Katıl
+
+                </a>
+
+
+                <!-- YOUTUBE -->
+
+                <a href="https://www.youtube.com/@byVORTEX_HUB"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="w-full bg-red-600
+                          hover:bg-red-500
+                          text-white font-black
+                          py-3 rounded-xl text-xs
+                          flex items-center
+                          justify-center gap-2
+                          transition">
+
+                    <i class="fa-brands fa-youtube"></i>
+
+                    YouTube'a Abone Ol
+
+                </a>
+
+
+            </div>
+
+
+            <!-- KODU KOPYALA -->
+
+            <button onclick="copyWartexScript()"
+                    class="mt-3 w-full
+                           bg-purple-600
+                           hover:bg-purple-500
+                           text-white font-black
+                           py-3 rounded-xl text-xs
+                           transition">
+
+                <i class="fa-solid fa-copy mr-1"></i>
+
+                Kodu Kopyala
+
+            </button>
+
+
+        </div>
+
+    `;
+
+    details.appendChild(accessBox);
+
+    accessBox.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
 
 
 /* =========================================================
