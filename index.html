@@ -6974,7 +6974,7 @@ function wartexCompleteStep(type) {
     }
 }
 function wartexOpenUnlockModal(script) {
-
+window.wartexUnlockScript = script;
     const oldModal = document.getElementById("wartexUnlockModal");
 
     if (oldModal) {
@@ -7233,7 +7233,7 @@ function wartexOpenUnlockModal(script) {
 
     <button
         onclick="
-            wartexCopyScript(script.code);
+           wartexCopyScript(window.wartexUnlockScript.code);
             document
                 .getElementById('wartexUnlockModal')
                 .remove();
