@@ -5914,7 +5914,7 @@ function wartexQuickSearch(query) {
 }
 
 
-function wartexRenderScripts(scripts) {
+async function wartexRenderScripts(scripts) {
 
     const results =
         document.getElementById("wartexScriptResults");
@@ -5944,9 +5944,11 @@ function wartexRenderScripts(scripts) {
                     md:grid-cols-2
                     xl:grid-cols-3 gap-4">
 
-            ${scripts.map(script =>
-                wartexCreateScriptCard(script)
-            ).join("")}
+           ${await Promise.all(
+    scripts.map(script =>
+        wartexCreateScriptCard(script)
+    )
+).then(cards => cards.join(""))}
 
         </div>
     `;
@@ -6009,7 +6011,7 @@ async function wartexGetRobloxGameImage(gameName) {
     }
 }
 
-function wartexCreateScriptCard(script) {
+async function wartexCreateScriptCard(script) {
 
     const title =
         wartexEscape(script.title || "İsimsiz Script");
@@ -6018,11 +6020,20 @@ function wartexCreateScriptCard(script) {
         wartexEscape(
             script.game?.name || "Universal"
         );
-const image =
+let image =
     script.image ||
     script.game?.imageUrl ||
     script.game?.image ||
     "";
+
+if (!image) {
+
+    image =
+        await wartexGetRobloxGameImage(
+            script.game?.name || ""
+        );
+
+}
    
 
     const views =
