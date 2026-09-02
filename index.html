@@ -7037,8 +7037,8 @@ function wartexOpenUnlockModal(script) {
     console.log("SEÇİLEN SCRIPT:", script);
     console.log("SCRIPT CODE:", script?.code);
 
-    if (!script || !script.code) {
-        alert("Bu script için kod bulunamadı.");
+    if (!script) {
+        alert("Script seçilemedi.");
         return;
     }
 
