@@ -6886,7 +6886,10 @@ function wartexOpenScriptDetails(script) {
                     </p>
 
                     <button
-                    onclick="wartexOpenUnlockModal(selectedWartexScript)"
+                    onclick="
+    console.log('BUTONA GELEN SCRIPT:', selectedWartexScript);
+    wartexOpenUnlockModal(selectedWartexScript);
+"
                         class="w-full
                                bg-indigo-600
                                hover:bg-indigo-500
