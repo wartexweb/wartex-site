@@ -6773,7 +6773,7 @@ function wartexOpenScriptDetails(script) {
                     </p>
 
                     <button
-                    onclick="wartexOpenUnlockModal()"
+                    onclick="wartexOpenUnlockModal(selectedWartexScript)"
                         class="w-full
                                bg-indigo-600
                                hover:bg-indigo-500
@@ -6973,7 +6973,7 @@ function wartexCompleteStep(type) {
         }
     }
 }
-function wartexOpenUnlockModal() {
+function wartexOpenUnlockModal(script) {
 
     const oldModal = document.getElementById("wartexUnlockModal");
 
@@ -7233,7 +7233,7 @@ function wartexOpenUnlockModal() {
 
     <button
         onclick="
-            copyWartexScript();
+            wartexCopyScript(script.code);
             document
                 .getElementById('wartexUnlockModal')
                 .remove();
