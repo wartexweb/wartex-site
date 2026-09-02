@@ -6189,6 +6189,7 @@ function wartexCreateScriptCard(script) {
         </div>
     `;
 }
+
 function wartexOpenScriptDetails(script) {
 
     const title =
@@ -6205,73 +6206,182 @@ function wartexOpenScriptDetails(script) {
     const verified =
         script.verified === true;
 
-    const code =
-        script.script || "";
+    const description =
+        wartexEscape(
+            script.description ||
+            "Bu script hakkında henüz bir açıklama eklenmemiş."
+        );
+
+    const keyStatus =
+        wartexEscape(
+            script.keySystem ||
+            script.key ||
+            "Belirtilmemiş"
+        );
+
+    let features = [];
+
+    if (Array.isArray(script.features)) {
+
+        features = script.features;
+
+    } else if (typeof script.features === "string") {
+
+        features = script.features
+            .split(",")
+            .map(feature => feature.trim())
+            .filter(Boolean);
+
+    }
+
+    if (features.length === 0) {
+
+        features = [
+            "Script özellikleri",
+            "Oyun uyumluluğu",
+            "Kullanıcı arayüzü"
+        ];
+
+    }
+
+    const featuresHTML =
+        features
+            .slice(0, 8)
+            .map(feature => `
+
+                <div class="flex items-center gap-2
+                            bg-zinc-950
+                            border border-zinc-800
+                            rounded-lg
+                            px-3 py-2">
+
+                    <i class="fa-solid fa-check
+                              text-indigo-400
+                              text-[9px]">
+                    </i>
+
+                    <span class="text-zinc-300
+                                 text-[10px]
+                                 font-medium">
+
+                        ${wartexEscape(feature)}
+
+                    </span>
+
+                </div>
+
+            `)
+            .join("");
 
     const oldModal =
-        document.getElementById("wartexScriptDetailsModal");
+        document.getElementById(
+            "wartexScriptDetailsModal"
+        );
 
     if (oldModal) {
         oldModal.remove();
     }
 
-    const modal = document.createElement("div");
+    const modal =
+        document.createElement("div");
 
-    modal.id = "wartexScriptDetailsModal";
+    modal.id =
+        "wartexScriptDetailsModal";
 
     modal.className =
         "fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4";
 
     modal.innerHTML = `
-        <div class="bg-zinc-950 border border-zinc-800
-                    rounded-2xl max-w-2xl w-full
-                    max-h-[85vh] overflow-hidden
+
+        <div class="bg-zinc-950
+                    border border-zinc-800
+                    rounded-2xl
+                    max-w-2xl
+                    w-full
+                    max-h-[90vh]
+                    overflow-hidden
                     shadow-2xl">
 
-            <div class="p-5 border-b border-zinc-800
-                        flex items-center justify-between">
+            <div class="p-5
+                        border-b border-zinc-800
+                        flex items-center
+                        justify-between">
 
-                <div>
-                    <p class="text-[10px] text-indigo-400
-                              font-bold uppercase mb-1">
+                <div class="min-w-0">
+
+                    <p class="text-[10px]
+                              text-indigo-400
+                              font-bold
+                              uppercase
+                              mb-1">
+
+                        <i class="fa-solid fa-gamepad mr-1"></i>
                         ${gameName}
+
                     </p>
 
-                    <h3 class="text-lg font-black text-white">
+                    <h3 class="text-lg
+                               font-black
+                               text-white
+                               truncate">
+
                         ${title}
+
                     </h3>
+
                 </div>
 
                 <button
                     onclick="document.getElementById('wartexScriptDetailsModal').remove()"
-                    class="text-zinc-500 hover:text-white">
+                    class="w-9 h-9
+                           flex items-center
+                           justify-center
+                           rounded-lg
+                           bg-zinc-900
+                           text-zinc-500
+                           hover:text-white
+                           hover:bg-zinc-800
+                           transition">
 
-                    <i class="fa-solid fa-xmark text-xl"></i>
+                    <i class="fa-solid fa-xmark"></i>
 
                 </button>
 
             </div>
 
-            <div class="p-6 overflow-y-auto">
 
-                <div class="grid grid-cols-2 gap-3 mb-5">
+            <div class="p-5 overflow-y-auto">
+
+
+                <div class="grid
+                            grid-cols-2
+                            md:grid-cols-3
+                            gap-3
+                            mb-5">
+
 
                     <div class="bg-zinc-900
                                 border border-zinc-800
-                                rounded-xl p-4">
+                                rounded-xl
+                                p-4">
 
                         <i class="fa-solid fa-eye
-                                  text-indigo-400 mb-2"></i>
+                                  text-indigo-400
+                                  mb-2">
+                        </i>
 
-                        <span class="block text-white
-                                     font-black text-lg">
+                        <span class="block
+                                     text-white
+                                     font-black
+                                     text-lg">
 
                             ${views}
 
                         </span>
 
                         <span class="text-[9px]
-                                     text-zinc-500 uppercase">
+                                     text-zinc-500
+                                     uppercase">
 
                             Görüntülenme
 
@@ -6279,21 +6389,59 @@ function wartexOpenScriptDetails(script) {
 
                     </div>
 
+
                     <div class="bg-zinc-900
                                 border border-zinc-800
-                                rounded-xl p-4">
+                                rounded-xl
+                                p-4">
+
+                        <i class="fa-solid fa-key
+                                  text-amber-400
+                                  mb-2">
+                        </i>
+
+                        <span class="block
+                                     text-white
+                                     font-black
+                                     text-sm">
+
+                            ${keyStatus}
+
+                        </span>
+
+                        <span class="text-[9px]
+                                     text-zinc-500
+                                     uppercase">
+
+                            Key Durumu
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="bg-zinc-900
+                                border border-zinc-800
+                                rounded-xl
+                                p-4
+                                col-span-2
+                                md:col-span-1">
 
                         ${
                             verified
                             ? `
-                                <div class="flex items-center gap-2 mb-2">
 
-                                    <span class="relative flex h-3 w-3">
+                                <div class="flex items-center
+                                            gap-2 mb-2">
+
+                                    <span class="relative
+                                                 flex h-3 w-3">
 
                                         <span class="animate-ping
                                                      absolute
                                                      inline-flex
-                                                     h-full w-full
+                                                     h-full
+                                                     w-full
                                                      rounded-full
                                                      bg-emerald-400
                                                      opacity-75">
@@ -6309,7 +6457,8 @@ function wartexOpenScriptDetails(script) {
                                     </span>
 
                                     <span class="text-emerald-400
-                                                 font-black">
+                                                 font-black
+                                                 text-sm">
 
                                         Doğrulanmış
 
@@ -6323,15 +6472,27 @@ function wartexOpenScriptDetails(script) {
                                     WARTEX Güvenlik Rozeti
 
                                 </span>
+
                             `
                             : `
-                                <span class="block
-                                             text-zinc-300
-                                             font-black mb-2">
 
-                                    Standart
+                                <div class="flex items-center
+                                            gap-2 mb-2">
 
-                                </span>
+                                    <i class="fa-solid
+                                              fa-circle-info
+                                              text-zinc-500">
+                                    </i>
+
+                                    <span class="text-zinc-300
+                                                 font-black
+                                                 text-sm">
+
+                                        Standart
+
+                                    </span>
+
+                                </div>
 
                                 <span class="text-[9px]
                                              text-zinc-500">
@@ -6339,6 +6500,7 @@ function wartexOpenScriptDetails(script) {
                                     Doğrulanmamış
 
                                 </span>
+
                             `
                         }
 
@@ -6346,35 +6508,42 @@ function wartexOpenScriptDetails(script) {
 
                 </div>
 
+
                 <div class="bg-indigo-500/5
                             border border-indigo-500/20
-                            rounded-xl p-4 mb-5">
+                            rounded-xl
+                            p-4
+                            mb-4">
 
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center
+                                gap-3 mb-3">
 
-                        <div class="w-10 h-10 rounded-xl
+                        <div class="w-9 h-9
+                                    rounded-lg
                                     bg-indigo-500/10
                                     flex items-center
                                     justify-center">
 
-                            <i class="fa-solid fa-code
-                                      text-indigo-400"></i>
+                            <i class="fa-solid fa-align-left
+                                      text-indigo-400">
+                            </i>
 
                         </div>
 
                         <div>
 
                             <h4 class="text-white
-                                       font-bold text-sm">
+                                       font-bold
+                                       text-sm">
 
-                                Script Detayları
+                                Script Hakkında
 
                             </h4>
 
                             <p class="text-zinc-500
-                                      text-[10px]">
+                                      text-[9px]">
 
-                                Script bilgilerini inceleyebilirsiniz.
+                                Script hakkında bilgiler
 
                             </p>
 
@@ -6382,53 +6551,136 @@ function wartexOpenScriptDetails(script) {
 
                     </div>
 
+                    <p class="text-zinc-400
+                              text-xs
+                              leading-relaxed">
+
+                        ${description}
+
+                    </p>
+
                 </div>
+
 
                 <div class="bg-zinc-900
                             border border-zinc-800
-                            rounded-xl p-4">
+                            rounded-xl
+                            p-4
+                            mb-4">
 
                     <div class="flex items-center
-                                justify-between mb-3">
+                                gap-2 mb-4">
 
-                        <span class="text-xs
-                                     font-bold
-                                     text-zinc-300">
+                        <i class="fa-solid fa-bolt
+                                  text-amber-400">
+                        </i>
 
-                            Script Kodu
+                        <h4 class="text-white
+                                   font-bold
+                                   text-sm">
 
-                        </span>
+                            Özellikler
 
-                        <span class="text-[9px]
-                                     text-emerald-400">
-
-                            Hazır
-
-                        </span>
+                        </h4>
 
                     </div>
 
-                    <pre class="bg-black/60
-                                border border-zinc-800
-                                rounded-lg p-4
-                                text-[10px]
-                                text-zinc-300
-                                overflow-x-auto
-                                whitespace-pre-wrap">${wartexEscape(code)}</pre>
+                    <div class="grid
+                                grid-cols-1
+                                md:grid-cols-2
+                                gap-2">
+
+                        ${featuresHTML}
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-amber-500/5
+                            border border-amber-500/20
+                            rounded-xl
+                            p-4">
+
+                    <div class="flex items-start
+                                gap-3">
+
+                        <i class="fa-solid
+                                  fa-triangle-exclamation
+                                  text-amber-400
+                                  mt-0.5">
+                        </i>
+
+                        <p class="text-[9px]
+                                  text-zinc-500
+                                  leading-relaxed">
+
+                            Bu scriptin kullanımından doğabilecek
+                            hesap kısıtlamaları veya yasaklamalardan
+                            WARTEX sorumlu değildir. Kullanmadan önce
+                            ilgili oyunun kurallarını kontrol etmeniz
+                            önerilir.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4
+                            bg-black/30
+                            border border-zinc-800
+                            rounded-xl
+                            p-5
+                            text-center">
+
+                    <div class="w-12 h-12
+                                mx-auto
+                                rounded-xl
+                                bg-indigo-500/10
+                                flex items-center
+                                justify-center
+                                mb-3">
+
+                        <i class="fa-solid fa-lock
+                                  text-indigo-400
+                                  text-lg">
+                        </i>
+
+                    </div>
+
+                    <h4 class="text-white
+                               font-bold
+                               text-sm
+                               mb-1">
+
+                        Script Kodu Kilitli
+
+                    </h4>
+
+                    <p class="text-zinc-500
+                              text-[10px]
+                              mb-4">
+
+                        Scripti almak için devam edin.
+
+                    </p>
 
                     <button
-                        onclick='wartexCopyScript(${JSON.stringify(code)})'
-                        class="w-full mt-4
+                        class="w-full
                                bg-indigo-600
                                hover:bg-indigo-500
                                text-white
                                font-bold
                                py-3
                                rounded-xl
-                               text-xs">
+                               text-xs
+                               transition">
 
-                        <i class="fa-solid fa-copy mr-1"></i>
-                        Scripti Kopyala
+                        <i class="fa-solid fa-unlock mr-1"></i>
+
+                        Scripti Al
 
                     </button>
 
@@ -6436,7 +6688,9 @@ function wartexOpenScriptDetails(script) {
 
             </div>
 
-            <div class="p-4 border-t border-zinc-800
+
+            <div class="p-4
+                        border-t border-zinc-800
                         flex justify-end">
 
                 <button
@@ -6447,7 +6701,8 @@ function wartexOpenScriptDetails(script) {
                            px-5 py-2.5
                            rounded-xl
                            text-xs
-                           font-bold">
+                           font-bold
+                           transition">
 
                     Kapat
 
