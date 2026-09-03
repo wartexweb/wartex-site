@@ -1223,7 +1223,7 @@
    WARTEX SCRIPT HUB VERİLERİ
 ========================================================= */
 
-const wartexScripts = [
+let wartexScripts = [
 
     {
         game: "Blox Fruits",
@@ -1285,7 +1285,17 @@ let selectedWartexScript = null;
 /* =========================================================
    SCRIPTBLOX API
 ========================================================= */
+let wartexCurrentPage = 1;
+let wartexTotalPages = 1;
+function wartexChangePage(page) {
 
+    if (page < 1 || page > wartexTotalPages) return;
+
+    wartexCurrentPage = page;
+
+    loadWartexScriptsFromAPI();
+
+}
 async function loadWartexScriptsFromAPI() {
 
     try {
@@ -1293,9 +1303,8 @@ async function loadWartexScriptsFromAPI() {
         console.log("ScriptBlox scriptleri yükleniyor...");
 
         const response = await fetch(
-        "https://scriptblox.com/api/script/fetch?max=100"
-    
-        );
+    `https://scriptblox.com/api/script/fetch?max=20&page=${wartexCurrentPage}`
+);
 
 
         if (!response.ok) {
@@ -1311,7 +1320,18 @@ async function loadWartexScriptsFromAPI() {
 
         const scripts =
             data?.result?.scripts;
+wartexTotalPages =
+    Number(data?.result?.totalPages || 1);
 
+console.log(
+    "ScriptBlox toplam sayfa:",
+    wartexTotalPages
+);
+
+console.log(
+    "Şu anki sayfa:",
+    wartexCurrentPage
+);
         if (!Array.isArray(scripts)) {
             throw new Error(
                 "ScriptBlox script listesi bulunamadı."
@@ -1383,25 +1403,11 @@ async function loadWartexScriptsFromAPI() {
          * ScriptBlox'dan gelenleri mevcut listeye ekliyoruz.
          */
 
-        apiScripts
-    .filter(script =>
-        script.code &&
-        typeof script.code === "string" &&
-        script.code.trim() !== ""
-    )
-    .forEach(script => {
-
-        const alreadyExists =
-            wartexScripts.some(existing =>
-                existing.name === script.name &&
-                existing.game === script.game
-            );
-
-        if (!alreadyExists) {
-            wartexScripts.push(script);
-        }
-
-    });
+       wartexScripts = apiScripts.filter(script =>
+    script.code &&
+    typeof script.code === "string" &&
+    script.code.trim() !== ""
+);
 
         console.log(
             "WARTEX toplam script:",
@@ -1445,7 +1451,44 @@ function renderWartexScripts(list = wartexScripts) {
 
     const results = document.getElementById("scriptHubResults");
     const count = document.getElementById("scriptHubCount");
+    const pagination =
+        document.getElementById("wartexPagination");
 
+    if (pagination) {
+
+        pagination.innerHTML = `
+            <button
+                onclick="wartexChangePage(${wartexCurrentPage - 1})"
+                ${wartexCurrentPage <= 1 ? "disabled" : ""}
+                class="px-4 py-2 rounded-lg
+                       bg-zinc-800
+                       hover:bg-purple-600
+                       disabled:opacity-40
+                       disabled:cursor-not-allowed
+                       text-white text-xs font-bold">
+                Önceki
+            </button>
+
+            <span class="px-4 py-2
+                         text-xs font-bold
+                         text-zinc-300">
+                Sayfa ${wartexCurrentPage} / ${wartexTotalPages}
+            </span>
+
+            <button
+                onclick="wartexChangePage(${wartexCurrentPage + 1})"
+                ${wartexCurrentPage >= wartexTotalPages ? "disabled" : ""}
+                class="px-4 py-2 rounded-lg
+                       bg-zinc-800
+                       hover:bg-purple-600
+                       disabled:opacity-40
+                       disabled:cursor-not-allowed
+                       text-white text-xs font-bold">
+                Sonraki
+            </button>
+        `;
+
+    }
     if (!results || !count) return;
 
     count.textContent = list.length + " SONUÇ";
