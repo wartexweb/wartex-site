@@ -1383,20 +1383,25 @@ async function loadWartexScriptsFromAPI() {
          * ScriptBlox'dan gelenleri mevcut listeye ekliyoruz.
          */
 
-        apiScripts.forEach(script => {
+        apiScripts
+    .filter(script =>
+        script.code &&
+        typeof script.code === "string" &&
+        script.code.trim() !== ""
+    )
+    .forEach(script => {
 
-            const alreadyExists =
-                wartexScripts.some(existing =>
-                    existing.name === script.name &&
-                    existing.game === script.game
-                );
+        const alreadyExists =
+            wartexScripts.some(existing =>
+                existing.name === script.name &&
+                existing.game === script.game
+            );
 
-            if (!alreadyExists) {
-                wartexScripts.push(script);
-            }
+        if (!alreadyExists) {
+            wartexScripts.push(script);
+        }
 
-        });
-
+    });
 
         console.log(
             "WARTEX toplam script:",
