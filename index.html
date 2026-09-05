@@ -1,6 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <html lang="en">
+<head>
+
+    <!-- =========================================================
+         WARTEX — SİYAH / MOR PARTİKÜLLÜ ANA ARKA PLAN
+    ========================================================= -->
+    <style>
+        body {
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(99, 102, 241, 0.16),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 30%,
+                    rgba(168, 85, 247, 0.14),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(79, 70, 229, 0.12),
+                    transparent 35%
+                ),
+                #050505;
+
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* MOR PARTİKÜLLER */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+            z-index: -1;
+
+            background-image:
+                radial-gradient(
+                    circle,
+                    rgba(139, 92, 246, 0.45) 1px,
+                    transparent 1px
+                ),
+                radial-gradient(
+                    circle,
+                    rgba(99, 102, 241, 0.30) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                90px 90px,
+                140px 140px;
+
+            background-position:
+                0 0,
+                45px 65px;
+
+            opacity: 0.35;
+
+            animation: wartexParticles 18s linear infinite;
+        }
+
+        /* YAVAŞ PARTİKÜL HAREKETİ */
+        @keyframes wartexParticles {
+            from {
+                background-position:
+                    0 0,
+                    45px 65px;
+            }
+
+            to {
+                background-position:
+                    180px 180px,
+                    -120px 220px;
+            }
+        }
+
+        /* ANA İÇERİK */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+
+    <!-- BURADAN SONRA SENİN MEVCUT HEAD KODLARIN -->
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" href="favicon.png">
     <meta charset="UTF-8">
