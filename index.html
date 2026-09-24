@@ -10844,6 +10844,103 @@ forwards;
 
 }
 
+
+/* =========================================================
+   WARTEX INTRO — 10 SECOND MODE
+   İçerik korunur, sadece zamanlama 10 saniyeye sıkıştırılır.
+========================================================= */
+
+#wartexIntro {
+    animation-duration: 10s !important;
+}
+
+.wartex-scene-one,
+.wartex-scene-two,
+.transition-line {
+    animation-duration: 10s !important;
+}
+
+.wartex-top-line {
+    animation-delay: .2s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-main-logo {
+    animation-delay: .45s !important;
+    animation-duration: .75s !important;
+}
+
+.wartex-tagline {
+    animation-delay: 1.15s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-center-status {
+    animation-delay: 1.65s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-script-1 { animation-delay: 1.1s !important; animation-duration: .7s !important; }
+.wartex-script-2 { animation-delay: 1.7s !important; animation-duration: .7s !important; }
+.wartex-script-3 { animation-delay: 2.3s !important; animation-duration: .7s !important; }
+.wartex-script-4 { animation-delay: 2.9s !important; animation-duration: .7s !important; }
+.wartex-script-5 { animation-delay: 3.5s !important; animation-duration: .7s !important; }
+.wartex-script-6 { animation-delay: 4.1s !important; animation-duration: .7s !important; }
+
+.wartex-executor-side h2 {
+    animation-delay: 4.65s !important;
+    animation-duration: .55s !important;
+}
+
+.executor-left-1 { animation-delay: 4.95s !important; animation-duration: .45s !important; }
+.executor-left-2 { animation-delay: 5.25s !important; animation-duration: .45s !important; }
+.executor-left-3 { animation-delay: 5.55s !important; animation-duration: .45s !important; }
+.executor-left-4 { animation-delay: 5.85s !important; animation-duration: .45s !important; }
+.executor-left-5 { animation-delay: 6.15s !important; animation-duration: .45s !important; }
+
+.executor-divider {
+    animation-delay: 5.9s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-small-label {
+    animation-delay: 4.65s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-big-title {
+    animation-delay: 4.85s !important;
+    animation-duration: .6s !important;
+}
+
+.wartex-executor-right > p {
+    animation-delay: 5.3s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-stats {
+    animation-delay: 5.7s !important;
+    animation-duration: .5s !important;
+}
+
+.wartex-security-box {
+    animation-delay: 6.1s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-footer {
+    animation-delay: 6.5s !important;
+    animation-duration: .5s !important;
+}
+
+.wartex-loading {
+    animation-duration: 10s !important;
+}
+
+.loading-bar div {
+    animation-duration: 9.5s !important;
+}
+
 </style>
 
 <script>
@@ -10858,14 +10955,14 @@ forwards;
      * WARTEX INTRO DURATION
      *
      * Intro:
-     * 30 seconds
+     * 10 seconds
      *
      * DOM removal:
-     * 32 seconds
+     * 10 seconds
      * =====================================================
      */
 
-    const WARtexIntroDuration = 32000;
+    const WARtexIntroDuration = 10000;
 
 
     setTimeout(function () {
