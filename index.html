@@ -645,6 +645,214 @@
 
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
 
+<!-- WARTEX DECORATIVE BACKGROUND -->
+<div id="wartexPageDecor" aria-hidden="true">
+    <div class="wartex-page-glow glow-1"></div>
+    <div class="wartex-page-glow glow-2"></div>
+
+    <div class="wartex-page-logos">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+    </div>
+
+    <div class="wartex-page-particles">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+</div>
+
+<style>
+/* =========================================================
+   WARTEX PAGE DECOR — AFTER INTRO
+========================================================= */
+
+#wartexPageDecor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(99,102,241,.045), transparent 34%),
+        radial-gradient(circle at 8% 72%, rgba(255,255,255,.018), transparent 28%),
+        radial-gradient(circle at 92% 28%, rgba(99,102,241,.025), transparent 30%);
+}
+
+.wartex-page-logos {
+    position: absolute;
+    inset: 0;
+}
+
+.wartex-page-logos img {
+    position: absolute;
+    width: 92px;
+    height: 92px;
+    object-fit: contain;
+    opacity: .025;
+    filter: grayscale(1) contrast(1.15);
+    mix-blend-mode: screen;
+    animation: wartexPageLogoFloat 11s ease-in-out infinite;
+}
+
+/* 18 logo positions */
+.wartex-page-logos img:nth-child(1)  { left: 3%;  top: 12%;  transform: rotate(-14deg); }
+.wartex-page-logos img:nth-child(2)  { left: 18%; top: 6%;   width: 68px; height: 68px; animation-delay:-2s; }
+.wartex-page-logos img:nth-child(3)  { left: 34%; top: 17%;  width: 105px; height: 105px; animation-delay:-5s; }
+.wartex-page-logos img:nth-child(4)  { right: 5%; top: 10%;  width: 115px; height: 115px; animation-delay:-3s; }
+.wartex-page-logos img:nth-child(5)  { right: 19%; top: 26%; width: 72px; height: 72px; animation-delay:-7s; }
+.wartex-page-logos img:nth-child(6)  { left: 7%; top: 39%;   width: 120px; height: 120px; animation-delay:-4s; }
+.wartex-page-logos img:nth-child(7)  { left: 25%; top: 48%;  width: 65px; height: 65px; animation-delay:-8s; }
+.wartex-page-logos img:nth-child(8)  { right: 8%; top: 43%;  width: 95px; height: 95px; animation-delay:-1s; }
+.wartex-page-logos img:nth-child(9)  { right: 27%; top: 55%; width: 70px; height: 70px; animation-delay:-6s; }
+.wartex-page-logos img:nth-child(10) { left: 2%; bottom: 8%; width: 110px; height: 110px; animation-delay:-9s; }
+.wartex-page-logos img:nth-child(11) { left: 20%; bottom: 17%; width: 76px; height: 76px; animation-delay:-3s; }
+.wartex-page-logos img:nth-child(12) { left: 42%; bottom: 7%; width: 115px; height: 115px; animation-delay:-6s; }
+.wartex-page-logos img:nth-child(13) { right: 4%; bottom: 9%; width: 125px; height: 125px; animation-delay:-5s; }
+.wartex-page-logos img:nth-child(14) { right: 20%; bottom: 23%; width: 68px; height: 68px; animation-delay:-10s; }
+.wartex-page-logos img:nth-child(15) { left: 53%; top: 28%; width: 58px; height: 58px; opacity:.018; animation-delay:-4s; }
+.wartex-page-logos img:nth-child(16) { left: 70%; top: 15%; width: 78px; height: 78px; animation-delay:-7s; }
+.wartex-page-logos img:nth-child(17) { left: 61%; bottom: 19%; width: 82px; height: 82px; animation-delay:-2s; }
+.wartex-page-logos img:nth-child(18) { right: 39%; bottom: 5%; width: 62px; height: 62px; opacity:.018; animation-delay:-8s; }
+
+@keyframes wartexPageLogoFloat {
+    0%, 100% {
+        translate: 0 0;
+        scale: 1;
+    }
+    50% {
+        translate: 0 -10px;
+        scale: 1.045;
+    }
+}
+
+.wartex-page-particles {
+    position: absolute;
+    inset: 0;
+}
+
+.wartex-page-particles i {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(99,102,241,.85);
+    opacity: 0;
+    animation: wartexPageParticle 7s linear infinite;
+}
+
+.wartex-page-particles i:nth-child(3n) {
+    background: #6366f1;
+}
+
+.wartex-page-particles i:nth-child(4n) {
+    width: 2px;
+    height: 2px;
+}
+
+.wartex-page-particles i:nth-child(1)  { left:4%;  bottom:2%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(2)  { left:9%;  bottom:20%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(3)  { left:15%; bottom:8%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(4)  { left:21%; bottom:25%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(5)  { left:28%; bottom:4%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(6)  { left:34%; bottom:18%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(7)  { left:41%; bottom:9%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(8)  { left:48%; bottom:27%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(9)  { left:55%; bottom:6%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(10) { left:62%; bottom:21%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(11) { left:69%; bottom:10%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(12) { left:76%; bottom:24%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(13) { left:83%; bottom:5%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(14) { left:90%; bottom:19%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(15) { left:96%; bottom:3%; animation-delay:-8s; }
+.wartex-page-particles i:nth-child(16) { left:12%; bottom:42%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(17) { left:31%; bottom:38%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(18) { left:46%; bottom:48%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(19) { left:58%; bottom:35%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(20) { left:73%; bottom:44%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(21) { left:88%; bottom:39%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(22) { left:6%; bottom:58%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(23) { left:38%; bottom:62%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(24) { left:66%; bottom:57%; animation-delay:-8s; }
+.wartex-page-particles i:nth-child(25) { left:94%; bottom:64%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(26) { left:24%; bottom:72%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(27) { left:52%; bottom:76%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(28) { left:79%; bottom:70%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(29) { left:17%; bottom:87%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(30) { left:84%; bottom:84%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(31) { left:44%; bottom:91%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(32) { left:71%; bottom:94%; animation-delay:-8s; }
+
+@keyframes wartexPageParticle {
+    0% {
+        transform: translateY(35px) scale(.4);
+        opacity: 0;
+    }
+    15% { opacity: .25; }
+    50% { opacity: .8; }
+    85% { opacity: .2; }
+    100% {
+        transform: translateY(-85px) scale(1.15);
+        opacity: 0;
+    }
+}
+
+.wartex-page-glow {
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .045;
+}
+
+.glow-1 {
+    left: -120px;
+    top: 35%;
+    background: #6366f1;
+}
+
+.glow-2 {
+    right: -120px;
+    top: 58%;
+    background: #ffffff;
+}
+
+@media (max-width: 800px) {
+    .wartex-page-logos img {
+        opacity: .018;
+        width: 65px;
+        height: 65px;
+    }
+    .wartex-page-logos img:nth-child(n+13) {
+        display: none;
+    }
+    .wartex-page-particles i {
+        width: 2px;
+        height: 2px;
+    }
+}
+</style>
+
+
 <!-- =========================================================
      HEADER
 ========================================================= -->
