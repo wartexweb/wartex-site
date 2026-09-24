@@ -644,7 +644,8 @@
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white"><div id="spooferDisclaimerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4 hidden"><div class="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-2xl w-full shadow-2xl"><div class="p-6"><h2 class="text-xl font-black text-white">WARTEX Spoofer — Legal Rights & Terms</h2><p class="text-zinc-400 text-sm mt-4">WARTEX Spoofer is currently under development. It is planned as a system-identity privacy and compatibility tool for legitimate, authorized use.</p><p class="text-zinc-400 text-sm mt-3">By continuing, you confirm that you have read and accepted this notice.</p></div><div class="p-4 border-t border-zinc-800 flex justify-end gap-2"><button type="button" onclick="closeModal('spooferDisclaimerModal')" class="bg-zinc-800 text-zinc-300 px-5 py-2.5 rounded-xl text-xs">Cancel</button><button type="button" onclick="acceptSpooferTerms()" class="bg-white text-black font-bold px-5 py-2.5 rounded-xl text-xs">I Accept & Continue</button></div></div></div>
+<div id="spooferComingSoonModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4 hidden"><div class="bg-zinc-950 border border-indigo-500/20 rounded-2xl max-w-2xl w-full shadow-2xl"><div class="p-6 text-center"><i class="fa-solid fa-shield-halved text-indigo-400 text-4xl"></i><p class="text-indigo-300 text-xs font-black tracking-widest uppercase mt-4">WARTEX Spoofer</p><h2 class="text-3xl font-black text-white mt-2">COMING SOON</h2><p class="text-zinc-400 text-sm leading-7 mt-4">WARTEX Spoofer is currently under development. This section will later contain supported features, compatibility information, release notes and usage documentation.</p><div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 text-left"><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">System Tools</b><p class="text-zinc-500 text-[10px] mt-1">Planned system-identity management features.</p></div><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">Compatibility</b><p class="text-zinc-500 text-[10px] mt-1">Supported versions will be announced after testing.</p></div><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">Updates</b><p class="text-zinc-500 text-[10px] mt-1">Release information will appear here.</p></div></div></div><div class="p-4 border-t border-zinc-800 flex justify-end"><button type="button" onclick="closeModal('spooferComingSoonModal')" class="bg-white text-black font-bold px-6 py-2.5 rounded-xl text-xs">Close</button></div></div></div>
 
 <!-- WARTEX DECORATIVE BACKGROUND -->
 <div id="wartexPageDecor" aria-hidden="true">
@@ -1633,7 +1634,7 @@ use of third-party scripts.
 </div>
 
 
-<script>
+<script>function openSpooferDisclaimer(){const m=document.getElementById("spooferDisclaimerModal");if(m){m.classList.remove("hidden");document.body.classList.add("overflow-hidden");}}function acceptSpooferTerms(){const a=document.getElementById("spooferDisclaimerModal"),b=document.getElementById("spooferComingSoonModal");if(a)a.classList.add("hidden");if(b)b.classList.remove("hidden");}
 
 /* =========================================================
    WARTEX SCRIPT HUB VERİLERİ
