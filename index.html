@@ -90,6 +90,77 @@
         position: relative;
         z-index: 1;
     }
+
+/* =========================================================
+   WARTEX PREMIUM NAVIGATION POLISH
+========================================================= */
+nav {
+    min-height: 68px !important;
+    padding: 0 22px !important;
+    border-bottom: 1px solid rgba(255,255,255,.075) !important;
+    background: rgba(8,8,10,.88) !important;
+    backdrop-filter: blur(18px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(120%) !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,.18);
+}
+
+nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 68px;
+    padding: 0 13px !important;
+    border-radius: 10px;
+    color: #a1a1aa !important;
+    font-weight: 700 !important;
+    letter-spacing: .01em;
+    transition: color .22s ease, background .22s ease, transform .22s ease;
+}
+
+nav a:hover {
+    color: #f4f4f5 !important;
+    background: rgba(255,255,255,.045);
+    transform: translateY(-1px);
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    bottom: 9px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #6366f1, transparent);
+    transform: scaleX(0);
+    opacity: 0;
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+nav a:hover::after {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+@media (max-width: 900px) {
+    nav {
+        min-height: 62px !important;
+        padding: 0 14px !important;
+    }
+
+    nav a {
+        min-height: 62px;
+        padding: 0 9px !important;
+        font-size: .82rem;
+    }
+
+    nav a::after {
+        left: 9px;
+        right: 9px;
+        bottom: 7px;
+    }
+}
+
 </style>
     <html lang="en">
 <head>
