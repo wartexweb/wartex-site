@@ -997,6 +997,19 @@
 
 </button>
 
+        <button onclick="openSpooferDisclaimer()"
+                class="bg-zinc-900/70 hover:bg-indigo-600/10
+                       hover:text-indigo-300
+                       text-zinc-400 px-3 py-1.5 rounded-lg
+                       transition flex items-center gap-1.5
+                       border border-zinc-800 hover:border-indigo-500/20
+                       whitespace-nowrap">
+
+            <i class="fa-solid fa-shield-halved text-indigo-400 text-[10px]"></i>
+            <span>Spoofer</span>
+
+        </button>
+
         <button onclick="openModal('supportModal')"
                 class="hover:bg-zinc-800/60 hover:text-zinc-200
                        px-3 py-1.5 rounded-lg transition
@@ -6431,6 +6444,23 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
 ========================================================= -->
 
 <script>
+
+    function openSpooferDisclaimer() {
+        const modal = document.getElementById("spooferDisclaimerModal");
+        if (!modal) return;
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+    }
+
+    function acceptSpooferTerms() {
+        const disclaimer = document.getElementById("spooferDisclaimerModal");
+        const comingSoon = document.getElementById("spooferComingSoonModal");
+
+        if (disclaimer) disclaimer.classList.add("hidden");
+        if (comingSoon) comingSoon.classList.remove("hidden");
+
+        document.body.classList.add("overflow-hidden");
+    }
 
     function openModal(modalId) {
 
