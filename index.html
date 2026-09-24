@@ -6508,47 +6508,126 @@ function closeWartexScriptHub() {
 }
 
 
+async function wartexFetchAllPages(buildUrl) {
+
+    const firstResponse = await fetch(buildUrl(1));
+
+    if (!firstResponse.ok) {
+        throw new Error("API bağlantısı başarısız.");
+    }
+
+    const firstData = await firstResponse.json();
+
+    const firstResult = firstData?.result || {};
+    const allScripts = [...(firstResult.scripts || [])];
+    const totalPages = Number(firstResult.totalPages || 1);
+
+    // ScriptBlox returns up to 20 scripts per page.
+    // Fetch every available page instead of stopping at 20.
+    if (totalPages > 1) {
+
+        const batchSize = 5;
+
+        for (let page = 2; page <= totalPages; page += batchSize) {
+
+            const requests = [];
+
+            for (
+                let currentPage = page;
+                currentPage < page + batchSize && currentPage <= totalPages;
+                currentPage++
+            ) {
+                requests.push(
+                    fetch(buildUrl(currentPage))
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Sayfa " + currentPage + " yüklenemedi.");
+                            }
+                            return response.json();
+                        })
+                );
+            }
+
+            const pageData = await Promise.all(requests);
+
+            pageData.forEach(data => {
+
+                const scripts =
+                    data?.result?.scripts || [];
+
+                allScripts.push(...scripts);
+
+            });
+
+        }
+
+    }
+
+    // Remove duplicate scripts while preserving order.
+    const uniqueScripts = [];
+    const seen = new Set();
+
+    allScripts.forEach(script => {
+
+        const id =
+            script?._id ||
+            script?.slug ||
+            script?.title;
+
+        if (!id || seen.has(id)) return;
+
+        seen.add(id);
+        uniqueScripts.push(script);
+
+    });
+
+    return uniqueScripts;
+}
+
+
 async function wartexSearchScripts() {
 
-    const input = document.getElementById("wartexScriptSearch");
-    const results = document.getElementById("wartexScriptResults");
+    const input =
+        document.getElementById("wartexScriptSearch");
+
+    const results =
+        document.getElementById("wartexScriptResults");
 
     if (!input || !results) return;
 
     const query = input.value.trim();
 
     if (!query) {
+
         wartexLoadTrending();
+
         return;
+
     }
 
     results.innerHTML = `
         <div class="text-center py-16">
+
             <i class="fa-solid fa-spinner fa-spin
                       text-indigo-400 text-3xl mb-4"></i>
 
             <p class="text-zinc-400 text-xs">
-                Scriptler aranıyor...
+                Tüm eşleşen scriptler yükleniyor...
             </p>
+
         </div>
     `;
 
     try {
 
-        const response = await fetch(
-            WARTEX_SCRIPT_API +
-            "/search?q=" +
-            encodeURIComponent(query) +
-            "&max=20"
+        const scripts = await wartexFetchAllPages(
+            page =>
+                WARTEX_SCRIPT_API +
+                "/search?q=" +
+                encodeURIComponent(query) +
+                "&max=20&page=" +
+                page
         );
-
-        if (!response.ok) {
-            throw new Error("API bağlantısı başarısız.");
-        }
-
-        const data = await response.json();
-
-        const scripts = data?.result?.scripts || [];
 
         wartexRenderScripts(scripts);
 
@@ -6572,7 +6651,9 @@ async function wartexSearchScripts() {
 
             </div>
         `;
+
     }
+
 }
 
 
@@ -6590,7 +6671,7 @@ async function wartexLoadTrending() {
                       text-indigo-400 text-3xl mb-4"></i>
 
             <p class="text-zinc-400 text-xs">
-                Trend scriptler yükleniyor...
+                Script kataloğu yükleniyor...
             </p>
 
         </div>
@@ -6598,18 +6679,19 @@ async function wartexLoadTrending() {
 
     try {
 
-        const response = await fetch(
-            WARTEX_SCRIPT_API +
-            "/trending?max=20"
+        /*
+         * The ScriptBlox trending endpoint itself is limited to 20.
+         * We therefore use the paginated fetch endpoint and collect
+         * every available page, ordered by views.
+         */
+
+        const scripts = await wartexFetchAllPages(
+            page =>
+                WARTEX_SCRIPT_API +
+                "/fetch?max=20&page=" +
+                page +
+                "&sortBy=views&order=desc"
         );
-
-        if (!response.ok) {
-            throw new Error("API bağlantısı başarısız.");
-        }
-
-        const data = await response.json();
-
-        const scripts = data?.result?.scripts || [];
 
         wartexRenderScripts(scripts);
 
@@ -6624,12 +6706,14 @@ async function wartexLoadTrending() {
                           text-red-400 text-3xl mb-4"></i>
 
                 <p class="text-red-300 text-sm font-bold">
-                    Trend scriptler yüklenemedi.
+                    Scriptler yüklenemedi.
                 </p>
 
             </div>
         `;
+
     }
+
 }
 
 
