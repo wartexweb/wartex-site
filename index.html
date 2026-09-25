@@ -6479,147 +6479,90 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
    WARTEX SCRIPT HUB
 ========================================================= */
 
-const WARTEX_SCRIPT_API = "https://scriptblox-api-proxy.vercel.app/api";
+const WARTEX_SCRIPT_API = "https://scriptblox.com/api/script";
 
 function openWartexScriptHub() {
-
-   const modal = document.getElementById("wartexScriptHubModal");
-
-    if (!modal) {
-        console.error("WARTEX Script Hub modalı bulunamadı.");
-        return;
-    }
-
+    const modal = document.getElementById("wartexScriptHubModal");
+    if (!modal) return;
     modal.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
-
     wartexLoadTrending();
 }
 
-
 function closeWartexScriptHub() {
-
     const modal = document.getElementById("wartexScriptHubModal");
-
     if (!modal) return;
-
     modal.classList.add("hidden");
     document.body.classList.remove("overflow-hidden");
 }
 
+/* GitHub Pages -> ScriptBlox için CORS proxy */
+async function wartexApiRequest(targetUrl) {
+    const proxyUrl =
+        "https://api.allorigins.win/raw?url=" +
+        encodeURIComponent(targetUrl);
 
-async function wartexFetchAllPages(buildUrl) {
-
-    const firstResponse = await fetch(buildUrl(1));
-
-    if (!firstResponse.ok) {
-        throw new Error("API bağlantısı başarısız.");
-    }
-
-    const firstData = await firstResponse.json();
-
-    const firstResult = firstData?.result || {};
-    const allScripts = [...(firstResult.scripts || [])];
-    const totalPages = Number(firstResult.totalPages || 1);
-
-    // ScriptBlox returns up to 20 scripts per page.
-    // Fetch every available page instead of stopping at 20.
-    if (totalPages > 1) {
-
-        const batchSize = 5;
-
-        for (let page = 2; page <= totalPages; page += batchSize) {
-
-            const requests = [];
-
-            for (
-                let currentPage = page;
-                currentPage < page + batchSize && currentPage <= totalPages;
-                currentPage++
-            ) {
-                requests.push(
-                    fetch(buildUrl(currentPage))
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error("Sayfa " + currentPage + " yüklenemedi.");
-                            }
-                            return response.json();
-                        })
-                );
-            }
-
-            const pageData = await Promise.all(requests);
-
-            pageData.forEach(data => {
-
-                const scripts =
-                    data?.result?.scripts || [];
-
-                allScripts.push(...scripts);
-
-            });
-
-        }
-
-    }
-
-    // Remove duplicate scripts while preserving order.
-    const uniqueScripts = [];
-    const seen = new Set();
-
-    allScripts.forEach(script => {
-
-        const id =
-            script?._id ||
-            script?.slug ||
-            script?.title;
-
-        if (!id || seen.has(id)) return;
-
-        seen.add(id);
-        uniqueScripts.push(script);
-
+    const response = await fetch(proxyUrl, {
+        method: "GET",
+        cache: "no-store"
     });
 
-    return uniqueScripts;
+    if (!response.ok) {
+        throw new Error("API bağlantısı başarısız: " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!data || typeof data !== "object") {
+        throw new Error("API geçersiz veri döndürdü.");
+    }
+
+    return data;
 }
 
+async function wartexFetchAllPages(buildUrl, maxPages = 5) {
+    const allScripts = [];
+    const seen = new Set();
+
+    for (let page = 1; page <= maxPages; page++) {
+        const data = await wartexApiRequest(buildUrl(page));
+        const result = data?.result || {};
+        const scripts = Array.isArray(result.scripts) ? result.scripts : [];
+
+        scripts.forEach(script => {
+            const id = script?._id || script?.slug || script?.title;
+            if (id && !seen.has(id)) {
+                seen.add(id);
+                allScripts.push(script);
+            }
+        });
+
+        const totalPages = Number(result.totalPages || page);
+        if (!scripts.length || page >= totalPages) break;
+    }
+
+    return allScripts;
+}
 
 async function wartexSearchScripts() {
-
-    const input =
-        document.getElementById("wartexScriptSearch");
-
-    const results =
-        document.getElementById("wartexScriptResults");
-
+    const input = document.getElementById("wartexScriptSearch");
+    const results = document.getElementById("wartexScriptResults");
     if (!input || !results) return;
 
     const query = input.value.trim();
-
     if (!query) {
-
         wartexLoadTrending();
-
         return;
-
     }
 
     results.innerHTML = `
         <div class="text-center py-16">
-
-            <i class="fa-solid fa-spinner fa-spin
-                      text-indigo-400 text-3xl mb-4"></i>
-
-            <p class="text-zinc-400 text-xs">
-                Tüm eşleşen scriptler yükleniyor...
-            </p>
-
+            <i class="fa-solid fa-spinner fa-spin text-indigo-400 text-3xl mb-4"></i>
+            <p class="text-zinc-400 text-xs">Scriptler aranıyor...</p>
         </div>
     `;
 
     try {
-
         const scripts = await wartexFetchAllPages(
             page =>
                 WARTEX_SCRIPT_API +
@@ -6629,93 +6572,56 @@ async function wartexSearchScripts() {
                 page
         );
 
-        wartexRenderScripts(scripts);
-
+        if (typeof wartexRenderScripts === "function") {
+            wartexRenderScripts(scripts);
+        }
     } catch (error) {
-
-        console.error(error);
-
+        console.error("WARTEX Script Search:", error);
         results.innerHTML = `
             <div class="text-center py-16">
-
-                <i class="fa-solid fa-triangle-exclamation
-                          text-red-400 text-3xl mb-4"></i>
-
-                <p class="text-red-300 text-sm font-bold">
-                    Scriptler yüklenemedi.
-                </p>
-
-                <p class="text-zinc-500 text-xs mt-2">
-                    Lütfen tekrar deneyin.
-                </p>
-
+                <i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-4"></i>
+                <p class="text-red-300 text-sm font-bold">Scriptler yüklenemedi.</p>
+                <p class="text-zinc-500 text-xs mt-2">API bağlantısı başarısız oldu. Birkaç saniye sonra tekrar deneyin.</p>
             </div>
         `;
-
     }
-
 }
 
-
 async function wartexLoadTrending() {
-
-    const results =
-        document.getElementById("wartexScriptResults");
-
+    const results = document.getElementById("wartexScriptResults");
     if (!results) return;
 
     results.innerHTML = `
         <div class="text-center py-16">
-
-            <i class="fa-solid fa-spinner fa-spin
-                      text-indigo-400 text-3xl mb-4"></i>
-
-            <p class="text-zinc-400 text-xs">
-                Script kataloğu yükleniyor...
-            </p>
-
+            <i class="fa-solid fa-spinner fa-spin text-indigo-400 text-3xl mb-4"></i>
+            <p class="text-zinc-400 text-xs">Script kataloğu yükleniyor...</p>
         </div>
     `;
 
     try {
-
-        /*
-         * The ScriptBlox trending endpoint itself is limited to 20.
-         * We therefore use the paginated fetch endpoint and collect
-         * every available page, ordered by views.
-         */
-
         const scripts = await wartexFetchAllPages(
             page =>
                 WARTEX_SCRIPT_API +
                 "/fetch?max=20&page=" +
                 page +
-                "&sortBy=views&order=desc"
+                "&sortBy=views&order=desc",
+            5
         );
 
-        wartexRenderScripts(scripts);
-
+        if (typeof wartexRenderScripts === "function") {
+            wartexRenderScripts(scripts);
+        }
     } catch (error) {
-
-        console.error(error);
-
+        console.error("WARTEX Script Trending:", error);
         results.innerHTML = `
             <div class="text-center py-16">
-
-                <i class="fa-solid fa-triangle-exclamation
-                          text-red-400 text-3xl mb-4"></i>
-
-                <p class="text-red-300 text-sm font-bold">
-                    Scriptler yüklenemedi.
-                </p>
-
+                <i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-4"></i>
+                <p class="text-red-300 text-sm font-bold">Scriptler yüklenemedi.</p>
+                <p class="text-zinc-500 text-xs mt-2">Script kaynağına bağlanılamadı.</p>
             </div>
         `;
-
     }
-
 }
-
 
 function wartexQuickSearch(query) {
 
