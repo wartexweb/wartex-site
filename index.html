@@ -6498,26 +6498,14 @@ function closeWartexScriptHub() {
 
 /* GitHub Pages -> ScriptBlox için CORS proxy */
 async function wartexApiRequest(targetUrl) {
-    const proxyUrl =
-        "https://api.allorigins.win/raw?url=" +
-        encodeURIComponent(targetUrl);
-
-    const response = await fetch(proxyUrl, {
+    const response = await fetch(targetUrl, {
         method: "GET",
-        cache: "no-store"
+        mode: "cors",
+        cache: "no-store",
+        headers: { "Accept": "application/json" }
     });
-
-    if (!response.ok) {
-        throw new Error("API bağlantısı başarısız: " + response.status);
-    }
-
-    const data = await response.json();
-
-    if (!data || typeof data !== "object") {
-        throw new Error("API geçersiz veri döndürdü.");
-    }
-
-    return data;
+    if (!response.ok) throw new Error("ScriptBlox HTTP " + response.status);
+    return await response.json();
 }
 
 async function wartexFetchAllPages(buildUrl, maxPages = 5) {
@@ -6605,7 +6593,7 @@ async function wartexLoadTrending() {
                 "/fetch?max=20&page=" +
                 page +
                 "&sortBy=views&order=desc",
-            5
+            3
         );
 
         if (typeof wartexRenderScripts === "function") {
