@@ -90,6 +90,7 @@
         position: relative;
         z-index: 1;
     }
+
 </style>
     <html lang="en">
 <head>
@@ -337,9 +338,9 @@
             border: 1px solid rgba(255,255,255,.08);
 
             transition:
-                transform .3s cubic-bezier(.4,0,.2,1),
-                border-color .3s ease,
-                box-shadow .3s ease;
+                transform .1s cubic-bezier(.4,0,.2,1),
+                border-color .1s ease,
+                box-shadow .1s ease;
         }
 
         .glow-card:hover {
@@ -489,7 +490,7 @@
 
         .executor-icon {
             animation:
-                executorFloat 3s ease-in-out infinite;
+                executorFloat 1s ease-in-out infinite;
         }
 
         .executor-panel {
@@ -643,7 +644,216 @@
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-white"><div id="spooferDisclaimerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4 hidden"><div class="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-2xl w-full shadow-2xl"><div class="p-6"><h2 class="text-xl font-black text-white">WARTEX Spoofer — Legal Rights & Terms</h2><p class="text-zinc-400 text-sm mt-4">WARTEX Spoofer is currently under development. It is planned as a system-identity privacy and compatibility tool for legitimate, authorized use.</p><p class="text-zinc-400 text-sm mt-3">By continuing, you confirm that you have read and accepted this notice.</p></div><div class="p-4 border-t border-zinc-800 flex justify-end gap-2"><button type="button" onclick="closeModal('spooferDisclaimerModal')" class="bg-zinc-800 text-zinc-300 px-5 py-2.5 rounded-xl text-xs">Cancel</button><button type="button" onclick="acceptSpooferTerms()" class="bg-white text-black font-bold px-5 py-2.5 rounded-xl text-xs">I Accept & Continue</button></div></div></div>
+<div id="spooferComingSoonModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4 hidden"><div class="bg-zinc-950 border border-indigo-500/20 rounded-2xl max-w-2xl w-full shadow-2xl"><div class="p-6 text-center"><i class="fa-solid fa-shield-halved text-indigo-400 text-4xl"></i><p class="text-indigo-300 text-xs font-black tracking-widest uppercase mt-4">WARTEX Spoofer</p><h2 class="text-3xl font-black text-white mt-2">COMING SOON</h2><p class="text-zinc-400 text-sm leading-7 mt-4">WARTEX Spoofer is currently under development. This section will later contain supported features, compatibility information, release notes and usage documentation.</p><div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 text-left"><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">System Tools</b><p class="text-zinc-500 text-[10px] mt-1">Planned system-identity management features.</p></div><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">Compatibility</b><p class="text-zinc-500 text-[10px] mt-1">Supported versions will be announced after testing.</p></div><div class="border border-zinc-800 rounded-xl p-4"><b class="text-white text-xs">Updates</b><p class="text-zinc-500 text-[10px] mt-1">Release information will appear here.</p></div></div></div><div class="p-4 border-t border-zinc-800 flex justify-end"><button type="button" onclick="closeModal('spooferComingSoonModal')" class="bg-white text-black font-bold px-6 py-2.5 rounded-xl text-xs">Close</button></div></div></div>
+
+<!-- WARTEX DECORATIVE BACKGROUND -->
+<div id="wartexPageDecor" aria-hidden="true">
+    <div class="wartex-page-glow glow-1"></div>
+    <div class="wartex-page-glow glow-2"></div>
+
+    <div class="wartex-page-logos">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+    </div>
+
+    <div class="wartex-page-particles">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+</div>
+
+<style>
+/* =========================================================
+   WARTEX PAGE DECOR — AFTER INTRO
+========================================================= */
+
+#wartexPageDecor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(99,102,241,.045), transparent 34%),
+        radial-gradient(circle at 8% 72%, rgba(255,255,255,.018), transparent 28%),
+        radial-gradient(circle at 92% 28%, rgba(99,102,241,.025), transparent 30%);
+}
+
+.wartex-page-logos {
+    position: absolute;
+    inset: 0;
+}
+
+.wartex-page-logos img {
+    position: absolute;
+    width: 92px;
+    height: 92px;
+    object-fit: contain;
+    opacity: .025;
+    filter: grayscale(1) contrast(1.15);
+    mix-blend-mode: screen;
+    animation: wartexPageLogoFloat 11s ease-in-out infinite;
+}
+
+/* 18 logo positions */
+.wartex-page-logos img:nth-child(1)  { left: 3%;  top: 12%;  transform: rotate(-14deg); }
+.wartex-page-logos img:nth-child(2)  { left: 18%; top: 6%;   width: 68px; height: 68px; animation-delay:-2s; }
+.wartex-page-logos img:nth-child(3)  { left: 34%; top: 17%;  width: 105px; height: 105px; animation-delay:-5s; }
+.wartex-page-logos img:nth-child(4)  { right: 5%; top: 10%;  width: 115px; height: 115px; animation-delay:-3s; }
+.wartex-page-logos img:nth-child(5)  { right: 19%; top: 26%; width: 72px; height: 72px; animation-delay:-7s; }
+.wartex-page-logos img:nth-child(6)  { left: 7%; top: 39%;   width: 120px; height: 120px; animation-delay:-4s; }
+.wartex-page-logos img:nth-child(7)  { left: 25%; top: 48%;  width: 65px; height: 65px; animation-delay:-8s; }
+.wartex-page-logos img:nth-child(8)  { right: 8%; top: 43%;  width: 95px; height: 95px; animation-delay:-1s; }
+.wartex-page-logos img:nth-child(9)  { right: 27%; top: 55%; width: 70px; height: 70px; animation-delay:-6s; }
+.wartex-page-logos img:nth-child(10) { left: 2%; bottom: 8%; width: 110px; height: 110px; animation-delay:-9s; }
+.wartex-page-logos img:nth-child(11) { left: 20%; bottom: 17%; width: 76px; height: 76px; animation-delay:-3s; }
+.wartex-page-logos img:nth-child(12) { left: 42%; bottom: 7%; width: 115px; height: 115px; animation-delay:-6s; }
+.wartex-page-logos img:nth-child(13) { right: 4%; bottom: 9%; width: 125px; height: 125px; animation-delay:-5s; }
+.wartex-page-logos img:nth-child(14) { right: 20%; bottom: 23%; width: 68px; height: 68px; animation-delay:-10s; }
+.wartex-page-logos img:nth-child(15) { left: 53%; top: 28%; width: 58px; height: 58px; opacity:.045; animation-delay:-4s; }
+.wartex-page-logos img:nth-child(16) { left: 70%; top: 15%; width: 78px; height: 78px; animation-delay:-7s; }
+.wartex-page-logos img:nth-child(17) { left: 61%; bottom: 19%; width: 82px; height: 82px; animation-delay:-2s; }
+.wartex-page-logos img:nth-child(18) { right: 39%; bottom: 5%; width: 62px; height: 62px; opacity:.045; animation-delay:-8s; }
+
+@keyframes wartexPageLogoFloat {
+    0%, 100% {
+        translate: 0 0;
+        scale: 1;
+    }
+    50% {
+        translate: 0 -10px;
+        scale: 1.045;
+    }
+}
+
+.wartex-page-particles {
+    position: absolute;
+    inset: 0;
+}
+
+.wartex-page-particles i {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(99,102,241,.85);
+    opacity: 0;
+    animation: wartexPageParticle 7s linear infinite;
+}
+
+.wartex-page-particles i:nth-child(3n) {
+    background: #6366f1;
+}
+
+.wartex-page-particles i:nth-child(4n) {
+    width: 2px;
+    height: 2px;
+}
+
+.wartex-page-particles i:nth-child(1)  { left:4%;  bottom:2%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(2)  { left:9%;  bottom:20%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(3)  { left:15%; bottom:8%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(4)  { left:21%; bottom:25%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(5)  { left:28%; bottom:4%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(6)  { left:34%; bottom:18%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(7)  { left:41%; bottom:9%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(8)  { left:48%; bottom:27%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(9)  { left:55%; bottom:6%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(10) { left:62%; bottom:21%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(11) { left:69%; bottom:10%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(12) { left:76%; bottom:24%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(13) { left:83%; bottom:5%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(14) { left:90%; bottom:19%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(15) { left:96%; bottom:3%; animation-delay:-8s; }
+.wartex-page-particles i:nth-child(16) { left:12%; bottom:42%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(17) { left:31%; bottom:38%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(18) { left:46%; bottom:48%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(19) { left:58%; bottom:35%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(20) { left:73%; bottom:44%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(21) { left:88%; bottom:39%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(22) { left:6%; bottom:58%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(23) { left:38%; bottom:62%; animation-delay:-2s; }
+.wartex-page-particles i:nth-child(24) { left:66%; bottom:57%; animation-delay:-8s; }
+.wartex-page-particles i:nth-child(25) { left:94%; bottom:64%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(26) { left:24%; bottom:72%; animation-delay:-7s; }
+.wartex-page-particles i:nth-child(27) { left:52%; bottom:76%; animation-delay:-4s; }
+.wartex-page-particles i:nth-child(28) { left:79%; bottom:70%; animation-delay:-6s; }
+.wartex-page-particles i:nth-child(29) { left:17%; bottom:87%; animation-delay:-1s; }
+.wartex-page-particles i:nth-child(30) { left:84%; bottom:84%; animation-delay:-5s; }
+.wartex-page-particles i:nth-child(31) { left:44%; bottom:91%; animation-delay:-3s; }
+.wartex-page-particles i:nth-child(32) { left:71%; bottom:94%; animation-delay:-8s; }
+
+@keyframes wartexPageParticle {
+    0% {
+        transform: translateY(35px) scale(.4);
+        opacity: 0;
+    }
+    15% { opacity: .25; }
+    50% { opacity: .8; }
+    85% { opacity: .2; }
+    100% {
+        transform: translateY(-85px) scale(1.15);
+        opacity: 0;
+    }
+}
+
+.wartex-page-glow {
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .045;
+}
+
+.glow-1 {
+    left: -120px;
+    top: 35%;
+    background: #6366f1;
+}
+
+.glow-2 {
+    right: -120px;
+    top: 58%;
+    background: #ffffff;
+}
+
+@media (max-width: 800px) {
+    .wartex-page-logos img {
+        opacity: .018;
+        width: 65px;
+        height: 65px;
+    }
+    .wartex-page-logos img:nth-child(n+13) {
+        display: none;
+    }
+    .wartex-page-particles i {
+        width: 2px;
+        height: 2px;
+    }
+}
+</style>
+
 
 <!-- =========================================================
      HEADER
@@ -787,6 +997,19 @@
     <span>WARTEX Script Hub</span>
 
 </button>
+
+        <button onclick="openSpooferDisclaimer()"
+                class="bg-zinc-900/70 hover:bg-indigo-600/10
+                       hover:text-indigo-300
+                       text-zinc-400 px-3 py-1.5 rounded-lg
+                       transition flex items-center gap-1.5
+                       border border-zinc-800 hover:border-indigo-500/20
+                       whitespace-nowrap">
+
+            <i class="fa-solid fa-shield-halved text-indigo-400 text-[10px]"></i>
+            <span>Spoofer</span>
+
+        </button>
 
         <button onclick="openModal('supportModal')"
                 class="hover:bg-zinc-800/60 hover:text-zinc-200
@@ -1411,7 +1634,7 @@ use of third-party scripts.
 </div>
 
 
-<script>
+<script>function openSpooferDisclaimer(){const m=document.getElementById("spooferDisclaimerModal");if(m){m.classList.remove("hidden");document.body.classList.add("overflow-hidden");}}function acceptSpooferTerms(){const a=document.getElementById("spooferDisclaimerModal"),b=document.getElementById("spooferComingSoonModal");if(a)a.classList.add("hidden");if(b)b.classList.remove("hidden");}
 
 /* =========================================================
    WARTEX SCRIPT HUB VERİLERİ
@@ -1497,7 +1720,7 @@ async function loadWartexScriptsFromAPI() {
         console.log("ScriptBlox scriptleri yükleniyor...");
 
         const response = await fetch(
-    `https://scriptblox.com/api/script/fetch?max=20&page=${wartexCurrentPage}`
+    `https://scriptblox-api-proxy.vercel.app/api/fetch?max=20&page=${wartexCurrentPage}`
 );
 
 
@@ -6223,6 +6446,23 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
 
 <script>
 
+    function openSpooferDisclaimer() {
+        const modal = document.getElementById("spooferDisclaimerModal");
+        if (!modal) return;
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+    }
+
+    function acceptSpooferTerms() {
+        const disclaimer = document.getElementById("spooferDisclaimerModal");
+        const comingSoon = document.getElementById("spooferComingSoonModal");
+
+        if (disclaimer) disclaimer.classList.add("hidden");
+        if (comingSoon) comingSoon.classList.remove("hidden");
+
+        document.body.classList.add("overflow-hidden");
+    }
+
     function openModal(modalId) {
 
         const modal = document.getElementById(modalId);
@@ -6242,37 +6482,81 @@ POTASSIUM is one of the paid options listed on the premium side, standing out wi
 const WARTEX_SCRIPT_API = "https://scriptblox.com/api/script";
 
 function openWartexScriptHub() {
-
-   const modal = document.getElementById("wartexScriptHubModal");
-
+    const modal = document.getElementById("wartexScriptHubModal");
     if (!modal) {
         console.error("WARTEX Script Hub modalı bulunamadı.");
         return;
     }
-
     modal.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
-
     wartexLoadTrending();
 }
 
-
 function closeWartexScriptHub() {
-
     const modal = document.getElementById("wartexScriptHubModal");
-
     if (!modal) return;
-
     modal.classList.add("hidden");
     document.body.classList.remove("overflow-hidden");
 }
 
+async function wartexFetchAllPages(buildUrl) {
+    const firstResponse = await fetch(buildUrl(1));
+    if (!firstResponse.ok) {
+        throw new Error("API bağlantısı başarısız.");
+    }
+
+    const firstData = await firstResponse.json();
+    const firstResult = firstData?.result || {};
+    const allScripts = [...(firstResult.scripts || [])];
+    const totalPages = Number(firstResult.totalPages || 1);
+
+    if (totalPages > 1) {
+        const batchSize = 5;
+
+        for (let page = 2; page <= totalPages; page += batchSize) {
+            const requests = [];
+
+            for (
+                let currentPage = page;
+                currentPage < page + batchSize && currentPage <= totalPages;
+                currentPage++
+            ) {
+                requests.push(
+                    fetch(buildUrl(currentPage))
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Sayfa " + currentPage + " yüklenemedi.");
+                            }
+                            return response.json();
+                        })
+                );
+            }
+
+            const pageData = await Promise.all(requests);
+
+            pageData.forEach(data => {
+                const scripts = data?.result?.scripts || [];
+                allScripts.push(...scripts);
+            });
+        }
+    }
+
+    const uniqueScripts = [];
+    const seen = new Set();
+
+    allScripts.forEach(script => {
+        const id = script?._id || script?.slug || script?.title;
+        if (!id || seen.has(id)) return;
+        seen.add(id);
+        uniqueScripts.push(script);
+    });
+
+    return uniqueScripts;
+}
 
 async function wartexSearchScripts() {
-
     const input = document.getElementById("wartexScriptSearch");
     const results = document.getElementById("wartexScriptResults");
-
     if (!input || !results) return;
 
     const query = input.value.trim();
@@ -6284,114 +6568,67 @@ async function wartexSearchScripts() {
 
     results.innerHTML = `
         <div class="text-center py-16">
-            <i class="fa-solid fa-spinner fa-spin
-                      text-indigo-400 text-3xl mb-4"></i>
-
-            <p class="text-zinc-400 text-xs">
-                Scriptler aranıyor...
-            </p>
+            <i class="fa-solid fa-spinner fa-spin text-indigo-400 text-3xl mb-4"></i>
+            <p class="text-zinc-400 text-xs">Tüm eşleşen scriptler yükleniyor...</p>
         </div>
     `;
 
     try {
-
-        const response = await fetch(
-            WARTEX_SCRIPT_API +
-            "/search?q=" +
-            encodeURIComponent(query) +
-            "&max=20"
+        const scripts = await wartexFetchAllPages(
+            page =>
+                WARTEX_SCRIPT_API +
+                "/search?q=" +
+                encodeURIComponent(query) +
+                "&max=20&page=" +
+                page
         );
 
-        if (!response.ok) {
-            throw new Error("API bağlantısı başarısız.");
-        }
-
-        const data = await response.json();
-
-        const scripts = data?.result?.scripts || [];
-
         wartexRenderScripts(scripts);
-
     } catch (error) {
-
         console.error(error);
 
         results.innerHTML = `
             <div class="text-center py-16">
-
-                <i class="fa-solid fa-triangle-exclamation
-                          text-red-400 text-3xl mb-4"></i>
-
-                <p class="text-red-300 text-sm font-bold">
-                    Scriptler yüklenemedi.
-                </p>
-
-                <p class="text-zinc-500 text-xs mt-2">
-                    Lütfen tekrar deneyin.
-                </p>
-
+                <i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-4"></i>
+                <p class="text-red-300 text-sm font-bold">Scriptler yüklenemedi.</p>
+                <p class="text-zinc-500 text-xs mt-2">Lütfen tekrar deneyin.</p>
             </div>
         `;
     }
 }
 
-
 async function wartexLoadTrending() {
-
-    const results =
-        document.getElementById("wartexScriptResults");
-
+    const results = document.getElementById("wartexScriptResults");
     if (!results) return;
 
     results.innerHTML = `
         <div class="text-center py-16">
-
-            <i class="fa-solid fa-spinner fa-spin
-                      text-indigo-400 text-3xl mb-4"></i>
-
-            <p class="text-zinc-400 text-xs">
-                Trend scriptler yükleniyor...
-            </p>
-
+            <i class="fa-solid fa-spinner fa-spin text-indigo-400 text-3xl mb-4"></i>
+            <p class="text-zinc-400 text-xs">Script kataloğu yükleniyor...</p>
         </div>
     `;
 
     try {
-
-        const response = await fetch(
-            WARTEX_SCRIPT_API +
-            "/trending?max=20"
+        const scripts = await wartexFetchAllPages(
+            page =>
+                WARTEX_SCRIPT_API +
+                "/fetch?max=20&page=" +
+                page +
+                "&sortBy=views&order=desc"
         );
 
-        if (!response.ok) {
-            throw new Error("API bağlantısı başarısız.");
-        }
-
-        const data = await response.json();
-
-        const scripts = data?.result?.scripts || [];
-
         wartexRenderScripts(scripts);
-
     } catch (error) {
-
         console.error(error);
 
         results.innerHTML = `
             <div class="text-center py-16">
-
-                <i class="fa-solid fa-triangle-exclamation
-                          text-red-400 text-3xl mb-4"></i>
-
-                <p class="text-red-300 text-sm font-bold">
-                    Trend scriptler yüklenemedi.
-                </p>
-
+                <i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-4"></i>
+                <p class="text-red-300 text-sm font-bold">Scriptler yüklenemedi.</p>
             </div>
         `;
     }
 }
-
 
 function wartexQuickSearch(query) {
 
@@ -7923,6 +8160,14 @@ function wartexCopyScript(script) {
 ========================================================= -->
 
 <div id="wartexIntro">
+    <div class="wartex-logo-bg" aria-hidden="true">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+        <img src="wartex-logo.png" alt="">
+    </div>
+
 
 ```
 <div class="wartex-intro-bg"></div>
@@ -7967,8 +8212,12 @@ function wartexCopyScript(script) {
                 >
 
                 <div class="wartex-logo-fallback">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
+    <img
+        src="./wartex-logo.png"
+        alt="WARTEX Logo"
+        class="w-20 h-20 object-contain"
+    >
+</div>
 
             </div>
 
@@ -8448,12 +8697,11 @@ function wartexCopyScript(script) {
     font-family: inherit;
 
     animation:
-        wartexExit
-        3s
-        cubic-bezier(.7,0,.2,1)
-        30s
-        forwards;
-
+wartexExit
+ 0.35s
+cubic-bezier(.7,0,.2,1)
+10s
+forwards;
 }
 
 
@@ -8586,39 +8834,38 @@ function wartexCopyScript(script) {
 }
 
 
-.wartex-particles span:nth-child(1)  { left: 4%;  animation-duration: 8s; }
-.wartex-particles span:nth-child(2)  { left: 9%;  animation-duration: 11s; }
-.wartex-particles span:nth-child(3)  { left: 15%; animation-duration: 7s; }
-.wartex-particles span:nth-child(4)  { left: 21%; animation-duration: 13s; }
-.wartex-particles span:nth-child(5)  { left: 28%; animation-duration: 9s; }
-.wartex-particles span:nth-child(6)  { left: 35%; animation-duration: 12s; }
-.wartex-particles span:nth-child(7)  { left: 42%; animation-duration: 8s; }
-.wartex-particles span:nth-child(8)  { left: 49%; animation-duration: 14s; }
-.wartex-particles span:nth-child(9)  { left: 56%; animation-duration: 9s; }
-.wartex-particles span:nth-child(10) { left: 63%; animation-duration: 12s; }
-.wartex-particles span:nth-child(11) { left: 70%; animation-duration: 7s; }
-.wartex-particles span:nth-child(12) { left: 77%; animation-duration: 10s; }
-.wartex-particles span:nth-child(13) { left: 83%; animation-duration: 13s; }
-.wartex-particles span:nth-child(14) { left: 88%; animation-duration: 8s; }
-.wartex-particles span:nth-child(15) { left: 94%; animation-duration: 11s; }
-.wartex-particles span:nth-child(16) { left: 18%; animation-duration: 15s; }
-.wartex-particles span:nth-child(17) { left: 46%; animation-duration: 10s; }
-.wartex-particles span:nth-child(18) { left: 74%; animation-duration: 14s; }
-.wartex-particles span:nth-child(19) { left: 31%; animation-duration: 9s; }
-.wartex-particles span:nth-child(20) { left: 91%; animation-duration: 12s; }
-.wartex-particles span:nth-child(21) { left: 60%; animation-duration: 8s; }
-.wartex-particles span:nth-child(22) { left: 12%; animation-duration: 13s; }
-.wartex-particles span:nth-child(23) { left: 82%; animation-duration: 10s; }
-.wartex-particles span:nth-child(24) { left: 38%; animation-duration: 11s; }
-.wartex-particles span:nth-child(25) { left: 26%; animation-duration: 12s; }
-.wartex-particles span:nth-child(26) { left: 68%; animation-duration: 9s; }
-.wartex-particles span:nth-child(27) { left: 52%; animation-duration: 14s; }
-.wartex-particles span:nth-child(28) { left: 87%; animation-duration: 8s; }
-.wartex-particles span:nth-child(29) { left: 7%; animation-duration: 10s; }
-.wartex-particles span:nth-child(30) { left: 72%; animation-duration: 13s; }
-.wartex-particles span:nth-child(31) { left: 44%; animation-duration: 9s; }
-.wartex-particles span:nth-child(32) { left: 97%; animation-duration: 15s; }
-
+.wartex-particles span:nth-child(1)  { left: 4%;  animation-duration: 2.8s; }
+.wartex-particles span:nth-child(2)  { left: 9%;  animation-duration: 3.6s; }
+.wartex-particles span:nth-child(3)  { left: 15%; animation-duration: 2.5s; }
+.wartex-particles span:nth-child(4)  { left: 21%; animation-duration: 4.2s; }
+.wartex-particles span:nth-child(5)  { left: 28%; animation-duration: 3.1s; }
+.wartex-particles span:nth-child(6)  { left: 35%; animation-duration: 3.8s; }
+.wartex-particles span:nth-child(7)  { left: 42%; animation-duration: 2.7s; }
+.wartex-particles span:nth-child(8)  { left: 49%; animation-duration: 4.5s; }
+.wartex-particles span:nth-child(9)  { left: 56%; animation-duration: 3.2s; }
+.wartex-particles span:nth-child(10) { left: 63%; animation-duration: 3.9s; }
+.wartex-particles span:nth-child(11) { left: 70%; animation-duration: 2.6s; }
+.wartex-particles span:nth-child(12) { left: 77%; animation-duration: 3.4s; }
+.wartex-particles span:nth-child(13) { left: 83%; animation-duration: 4.1s; }
+.wartex-particles span:nth-child(14) { left: 88%; animation-duration: 2.9s; }
+.wartex-particles span:nth-child(15) { left: 94%; animation-duration: 3.7s; }
+.wartex-particles span:nth-child(16) { left: 18%; animation-duration: 4.3s; }
+.wartex-particles span:nth-child(17) { left: 46%; animation-duration: 3.3s; }
+.wartex-particles span:nth-child(18) { left: 74%; animation-duration: 4.4s; }
+.wartex-particles span:nth-child(19) { left: 31%; animation-duration: 2.8s; }
+.wartex-particles span:nth-child(20) { left: 91%; animation-duration: 3.8s; }
+.wartex-particles span:nth-child(21) { left: 60%; animation-duration: 2.7s; }
+.wartex-particles span:nth-child(22) { left: 12%; animation-duration: 4.0s; }
+.wartex-particles span:nth-child(23) { left: 82%; animation-duration: 3.2s; }
+.wartex-particles span:nth-child(24) { left: 38%; animation-duration: 3.6s; }
+.wartex-particles span:nth-child(25) { left: 26%; animation-duration: 4.2s; }
+.wartex-particles span:nth-child(26) { left: 68%; animation-duration: 3.0s; }
+.wartex-particles span:nth-child(27) { left: 52%; animation-duration: 4.4s; }
+.wartex-particles span:nth-child(28) { left: 87%; animation-duration: 2.9s; }
+.wartex-particles span:nth-child(29) { left: 7%;  animation-duration: 3.5s; }
+.wartex-particles span:nth-child(30) { left: 72%; animation-duration: 4.0s; }
+.wartex-particles span:nth-child(31) { left: 44%; animation-duration: 3.1s; }
+.wartex-particles span:nth-child(32) { left: 97%; animation-duration: 4.3s; }
 
 @keyframes particleUp {
 
@@ -8665,9 +8912,11 @@ function wartexCopyScript(script) {
 
     animation:
         sceneOne
-        30s
+        10s
         ease
         forwards;
+
+}
 
 }
 
@@ -8680,7 +8929,7 @@ function wartexCopyScript(script) {
 
     animation:
         sceneTwo
-        30s
+        10s
         ease
         forwards;
 
@@ -8775,9 +9024,9 @@ function wartexCopyScript(script) {
 
     animation:
         topLineIn
-        1s
+        0.35s
         ease
-        1s
+        0.35s
         forwards;
 
 }
@@ -8837,7 +9086,7 @@ function wartexCopyScript(script) {
         logoReveal
         1.3s
         cubic-bezier(.2,.8,.2,1)
-        1.5s
+        0.5s
         forwards;
 
 }
@@ -8983,7 +9232,7 @@ function wartexCopyScript(script) {
 
     animation:
         taglineIn
-        1s
+        0.35s
         ease
         3s
         forwards;
@@ -9070,7 +9319,7 @@ function wartexCopyScript(script) {
 
     animation:
         statusIn
-        1s
+        0.35s
         ease
         4s
         forwards;
@@ -9093,7 +9342,7 @@ function wartexCopyScript(script) {
 
     animation:
         statusPulse
-        1.5s
+         0.5s
         infinite;
 
 }
@@ -9721,7 +9970,7 @@ function wartexCopyScript(script) {
 
     animation:
         executorTitle
-        1s
+        0.35s
         ease
         17s
         forwards;
@@ -10139,7 +10388,7 @@ function wartexCopyScript(script) {
 
     animation:
         rightTitleIn
-        1s
+        0.35s
         ease
         17.5s
         forwards;
@@ -10840,6 +11089,103 @@ function wartexCopyScript(script) {
 
 }
 
+
+/* =========================================================
+   WARTEX INTRO — 10 SECOND MODE
+   İçerik korunur, sadece zamanlama 10 saniyeye sıkıştırılır.
+========================================================= */
+
+#wartexIntro {
+    animation-duration: 10s !important;
+}
+
+.wartex-scene-one,
+.wartex-scene-two,
+.transition-line {
+    animation-duration: 10s !important;
+}
+
+.wartex-top-line {
+    animation-delay: .2s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-main-logo {
+    animation-delay: .45s !important;
+    animation-duration: .75s !important;
+}
+
+.wartex-tagline {
+    animation-delay: 1.15s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-center-status {
+    animation-delay: 1.65s !important;
+    animation-duration: .55s !important;
+}
+
+.wartex-script-1 { animation-delay: 1.1s !important; animation-duration: .7s !important; }
+.wartex-script-2 { animation-delay: 1.7s !important; animation-duration: .7s !important; }
+.wartex-script-3 { animation-delay: 2.3s !important; animation-duration: .7s !important; }
+.wartex-script-4 { animation-delay: 2.9s !important; animation-duration: .7s !important; }
+.wartex-script-5 { animation-delay: 3.5s !important; animation-duration: .7s !important; }
+.wartex-script-6 { animation-delay: 4.1s !important; animation-duration: .7s !important; }
+
+.wartex-executor-side h2 {
+    animation-delay: 4.65s !important;
+    animation-duration: .55s !important;
+}
+
+.executor-left-1 { animation-delay: 4.95s !important; animation-duration: .45s !important; }
+.executor-left-2 { animation-delay: 5.25s !important; animation-duration: .45s !important; }
+.executor-left-3 { animation-delay: 5.55s !important; animation-duration: .45s !important; }
+.executor-left-4 { animation-delay: 5.85s !important; animation-duration: .45s !important; }
+.executor-left-5 { animation-delay: 6.15s !important; animation-duration: .45s !important; }
+
+.executor-divider {
+    animation-delay: 5.9s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-small-label {
+    animation-delay: 4.65s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-big-title {
+    animation-delay: 4.85s !important;
+    animation-duration: .6s !important;
+}
+
+.wartex-executor-right > p {
+    animation-delay: 5.3s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-stats {
+    animation-delay: 5.7s !important;
+    animation-duration: .5s !important;
+}
+
+.wartex-security-box {
+    animation-delay: 6.1s !important;
+    animation-duration: .5s !important;
+}
+
+.executor-footer {
+    animation-delay: 6.5s !important;
+    animation-duration: .5s !important;
+}
+
+.wartex-loading {
+    animation-duration: 10s !important;
+}
+
+.loading-bar div {
+    animation-duration: 9.5s !important;
+}
+
 </style>
 
 <script>
@@ -10854,14 +11200,14 @@ function wartexCopyScript(script) {
      * WARTEX INTRO DURATION
      *
      * Intro:
-     * 30 seconds
+     * 10 seconds
      *
      * DOM removal:
-     * 32 seconds
+     * 10 seconds
      * =====================================================
      */
 
-    const WARtexIntroDuration = 32000;
+    const WARtexIntroDuration = 10000;
 
 
     setTimeout(function () {
